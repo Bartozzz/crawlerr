@@ -36,7 +36,7 @@
 ## Installation
 
 ```bash
-$ npm install crawler
+$ npm install crawlerr
 ```
 
 This module uses several `ECMAScript 2015` (ES6) features. You'll need the latest `Node.js` version in order to make it work correctly. You might need to run the script with the `--es_staging` flag, for example:

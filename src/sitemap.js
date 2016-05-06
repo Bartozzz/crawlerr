@@ -4,7 +4,6 @@ const _              = require( "lodash" );
 const EventEmitter   = require( "event-emitter" );
 const getLink        = require( "get-link" );
 const colors         = require( "colors" );
-const extend         = require( "extend.js" );
 
 const LinkCollection = require( "./collection/linkCollection" );
 const Response       = require( "./router/response" );
@@ -32,7 +31,7 @@ class Sitemap {
      * @access  public
      */
     constructor( website, options ) {
-        this.options = extend( {
+        this.options = _.extend( {
             concurrency : 10,
             interval    : 200,
             verbose     : true,

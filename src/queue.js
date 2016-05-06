@@ -1,6 +1,6 @@
 "use strict";
 
-const extend              = require( "extend.js" );
+const _                   = require( "lodash" );
 const EventEmitter        = require( "event-emitter" );
 const RequestCollection   = require( "./collection/requestCollection" );
 
@@ -24,7 +24,7 @@ class Queue extends RequestCollection {
     constructor( options ) {
         super();
 
-        this.options = extend( {
+        this.options = _.extend( {
             concurrency : 5,
             interval    : 500
         }, options );

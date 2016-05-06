@@ -24,7 +24,6 @@
         "cheerio"           : "^0.20.0",
         "request"           : "^2.71.0",
         "get-link"          : "^0.0.2",
-        "extend.js"         : "^0.0.2",
         "event-emitter"     : "^0.3.4",
         "basic-collection"  : "^0.1.12"
     },

@@ -1,7 +1,6 @@
 "use strict";
 
 const _         = require( "lodash" );
-const extend    = require( "extend.js" );
 const Queue     = require( "./queue" );
 const Sitemap   = require( "./sitemap" );
 const Request   = require( "./router/request" );
@@ -24,7 +23,7 @@ class Crawler {
      * @access  public
      */
     constructor( options ) {
-        this.options = extend( {
+        this.options = _.extend( {
             concurrency : 10,
             interval    : 250,
             verbose     : true,

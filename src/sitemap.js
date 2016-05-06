@@ -42,7 +42,6 @@ class Sitemap {
 
         this.base  = website;
         this.index = 1;
-        this.allow = true;
 
         this.events = new EventEmitter;
         this.links  = new LinkCollection;
@@ -111,20 +110,12 @@ class Sitemap {
     }
 
     isAllowed( url ) {
-        if ( url.startsWith( this.base ) ) {
-            let allowed  = this.options.allowed;
-            let filtered = allowed.filter( v => v !== _.trim( this.base, " /" ) );
-
-            this.options.allowed = filtered;
-
-            if ( this.allow ) {
-                this.allow = false;
-                return true;
-            }
-        }
-
         for ( let index in this.options.allowed ) {
             let allowed = this.options.allowed[ index ];
+
+            if ( allowed === _.trim( this.base, " /" ) ) {
+                this.options.allowed = _.initial( this.options.allowed );
+            }
 
             if ( url.startsWith( allowed ) ) {
                 return true;

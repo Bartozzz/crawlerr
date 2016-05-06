@@ -26,10 +26,33 @@ class Crawler {
         this.options = extend( {
             concurrency : 10,
             interval    : 250,
-            verbose     : true
+            verbose     : true,
+            ignored     : []
         }, options );
 
         this.queue = new Queue( this.options );
+    }
+
+    /**
+     *  Add a link (string) or a bunch to link (array) to the ignored list.
+     *
+     * @param   {string|array}  url
+     * @return  this
+     * @access  public
+     */
+    ignore( url ) {
+        function noramlize( value ) {
+            return value.replace( /\/$/, "" );
+        };
+
+        if ( typeof url === "string" ) {
+            this.options.ignored.push( noramlize( url ) );
+        } else if ( Array.isArray( url ) ) {
+            url = ur
+            this.options.ignored = this.options.ignored.concat( url.map( noramlize ) );
+        }
+
+        return this;
     }
 
     /**

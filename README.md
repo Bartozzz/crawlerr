@@ -89,6 +89,9 @@ Spider.scan( "http://blog.npmjs.org/", ( links ) => {
 const Crawler = require( "crawler" );
 const Spider  = new Crawler;
 
+Spider.ignore( "http://blog.npmjs.org/archieve" );
+Spider.ignore( "http://blog.npmjs.org/tagged" );
+
 Spider.scan( "http://blog.npmjs.org/", ( links ) => {
     links.filter( "http://blog.npmjs.org/page/[digit]", ( results ) => {
         for ( let page of results ) {
@@ -108,6 +111,11 @@ Creates a new `Crawler` instance with custom options:
 |:------------|:--------|:----------------------------------------------|
 | concurrency | 10      | How many request can be send at the same time |
 | interval    | 250     | How often should new request be send (in ms)  |
+| ignored     | {}      | Links to ignore when scanning                 |
+
+#### **public** .ignore( url )
+
+Add a link (string) or a bunch to link (array) to the ignored list.
 
 #### **public** .get( url, callback )
 

@@ -35,8 +35,11 @@ class Sitemap {
             concurrency : 10,
             interval    : 200,
             verbose     : true,
+            ignored     : [],
             auto        : true
         }, options );
+
+        console.log( this.options.ignored )
 
         this.base  = website;
         this.index = 1;
@@ -95,6 +98,18 @@ class Sitemap {
             } );
     }
 
+    isIgnored( url ) {
+        for ( let index in this.options.ignored ) {
+            let ignored = this.options.ignored[ index ];
+
+            if ( url.startsWith( ignored ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Requests a `url`, parses its content for other, unknown links from the
      * same domain.
@@ -104,6 +119,10 @@ class Sitemap {
      * @access  private
      */
     extract( url ) {
+        if ( this.isIgnored( url ) ) {
+            return false;
+        }
+
         return () => {
             return new Request( url, ( response ) => {
                 let $    = response.body;
@@ -114,8 +133,12 @@ class Sitemap {
                     let link = getLink( this.base, href );
 
                     if ( link && ! this.links.has( link ) ) {
-                        this.links.set( link );
-                        this.queue.set( this.extract( link ) );
+                        let extracted = this.extract( link );
+
+                        if ( extracted ) {
+                            this.links.set( link );
+                            this.queue.set( extracted );
+                        }
                     }
                 } );
             } );

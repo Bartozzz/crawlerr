@@ -1,10 +1,10 @@
 "use strict";
 
+const _         = require( "lodash" );
 const extend    = require( "extend.js" );
 const Queue     = require( "./queue" );
 const Sitemap   = require( "./sitemap" );
 const Request   = require( "./router/request" );
-const noramlize = require( "./helpers/normalize" );
 
 /**
  * Crawler class.
@@ -45,9 +45,9 @@ class Crawler {
      */
     add( url, list ) {
         if ( typeof url === "string" ) {
-            this.options[ list ].push( noramlize( url ) );
+            this.options[ list ].push( _.trim( url, " /" ) );
         } else if ( Array.isArray( url ) ) {
-            this.options[ list ] = this.options[ list ].concat( url.map( noramlize ) );
+            this.options[ list ] = this.options[ list ].concat( url.map( v => _.trim( v, " /" ) ) );
         }
 
         return this;

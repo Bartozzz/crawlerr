@@ -1,5 +1,6 @@
 "use strict";
 
+const _              = require( "lodash" );
 const EventEmitter   = require( "event-emitter" );
 const getLink        = require( "get-link" );
 const colors         = require( "colors" );
@@ -9,7 +10,6 @@ const LinkCollection = require( "./collection/linkCollection" );
 const Response       = require( "./router/response" );
 const Request        = require( "./router/request" );
 const Queue          = require( "./queue" );
-const noramlize      = require( "./helpers/normalize" );
 
 /**
  * Sitemap class.
@@ -114,7 +114,7 @@ class Sitemap {
     isAllowed( url ) {
         if ( url.startsWith( this.base ) ) {
             let allowed  = this.options.allowed;
-            let filtered = allowed.filter( v => v !== noramlize( this.base ) );
+            let filtered = allowed.filter( v => v !== _.trim( this.base, " /" ) );
 
             this.options.allowed = filtered;
 

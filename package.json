@@ -19,6 +19,7 @@
     },
 
     "dependencies" : {
+        "lodash"            : "latest",
         "colors"            : "^1.1.2",
         "cheerio"           : "^0.20.0",
         "request"           : "^2.71.0",

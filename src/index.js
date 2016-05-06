@@ -1,9 +1,10 @@
 "use strict";
 
-const extend  = require( "extend.js" );
-const Queue   = require( "./queue" );
-const Sitemap = require( "./sitemap" );
-const Request = require( "./router/request" );
+const extend    = require( "extend.js" );
+const Queue     = require( "./queue" );
+const Sitemap   = require( "./sitemap" );
+const Request   = require( "./router/request" );
+const noramlize = require( "./helpers/normalize" );
 
 /**
  * Crawler class.
@@ -27,10 +28,29 @@ class Crawler {
             concurrency : 10,
             interval    : 250,
             verbose     : true,
-            ignored     : []
+            ignored     : [],
+            allowed     : []
         }, options );
 
         this.queue = new Queue( this.options );
+    }
+
+    /**
+     * Add a link (string) or a bunch to link (array) to the specified list.
+     *
+     * @param   {string|array}  url
+     * @param   {string}        list
+     * @return  this
+     * @access  protected
+     */
+    add( url, list ) {
+        if ( typeof url === "string" ) {
+            this.options[ list ].push( noramlize( url ) );
+        } else if ( Array.isArray( url ) ) {
+            this.options[ list ] = this.options[ list ].concat( url.map( noramlize ) );
+        }
+
+        return this;
     }
 
     /**
@@ -41,18 +61,18 @@ class Crawler {
      * @access  public
      */
     ignore( url ) {
-        function noramlize( value ) {
-            return value.replace( /\/$/, "" );
-        };
+        return this.add( url, "ignored" );
+    }
 
-        if ( typeof url === "string" ) {
-            this.options.ignored.push( noramlize( url ) );
-        } else if ( Array.isArray( url ) ) {
-            url = ur
-            this.options.ignored = this.options.ignored.concat( url.map( noramlize ) );
-        }
-
-        return this;
+    /**
+     *  Add a link (string) or a bunch to link (array) to the allowed list.
+     *
+     * @param   {string|array}  url
+     * @return  this
+     * @access  public
+     */
+    allow( url ) {
+        return this.add( url, "allowed" );
     }
 
     /**
@@ -78,6 +98,8 @@ class Crawler {
      * @access  public
      */
     scan( website, callback ) {
+        this.allow( website );
+
         let scanner = new Sitemap( website, this.options );
 
         scanner.on( "end", links => callback( links ) );

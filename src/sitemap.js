@@ -9,6 +9,7 @@ const LinkCollection = require( "./collection/linkCollection" );
 const Response       = require( "./router/response" );
 const Request        = require( "./router/request" );
 const Queue          = require( "./queue" );
+const noramlize      = require( "./helpers/normalize" );
 
 /**
  * Sitemap class.
@@ -36,11 +37,13 @@ class Sitemap {
             interval    : 200,
             verbose     : true,
             ignored     : [],
+            allowed     : [],
             auto        : true
         }, options );
 
         this.base  = website;
         this.index = 1;
+        this.allow = true;
 
         this.events = new EventEmitter;
         this.links  = new LinkCollection;
@@ -108,6 +111,30 @@ class Sitemap {
         return false;
     }
 
+    isAllowed( url ) {
+        if ( url.startsWith( this.base ) ) {
+            let allowed  = this.options.allowed;
+            let filtered = allowed.filter( v => v !== noramlize( this.base ) );
+
+            this.options.allowed = filtered;
+
+            if ( this.allow ) {
+                this.allow = false;
+                return true;
+            }
+        }
+
+        for ( let index in this.options.allowed ) {
+            let allowed = this.options.allowed[ index ];
+
+            if ( url.startsWith( allowed ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Requests a `url`, parses its content for other, unknown links from the
      * same domain.
@@ -117,7 +144,7 @@ class Sitemap {
      * @access  private
      */
     extract( url ) {
-        if ( this.isIgnored( url ) ) {
+        if ( this.isIgnored( url ) || !this.isAllowed( url ) ) {
             return false;
         }
 

@@ -45,33 +45,34 @@ class Crawler {
     add( url, list ) {
         if ( typeof url === "string" ) {
             this.options[ list ].push( _.trim( url, " /" ) );
-        } else if ( Array.isArray( url ) ) {
-            this.options[ list ] = this.options[ list ].concat( url.map( v => _.trim( v, " /" ) ) );
         }
 
-        return this;
+        if ( Array.isArray( url ) ) {
+            let initial  = this.options[ list ];
+            let filtered = url.map( v => _.trim( v, " /" ) );
+
+            this.options[ list ] = _.concat( initial, filtered );
+        }
     }
 
     /**
      *  Add a link (string) or a bunch to link (array) to the ignored list.
      *
      * @param   {string|array}  url
-     * @return  this
      * @access  public
      */
     ignore( url ) {
-        return this.add( url, "ignored" );
+        this.add( url, "ignored" );
     }
 
     /**
      *  Add a link (string) or a bunch to link (array) to the allowed list.
      *
      * @param   {string|array}  url
-     * @return  this
      * @access  public
      */
     allow( url ) {
-        return this.add( url, "allowed" );
+        this.add( url, "allowed" );
     }
 
     /**

@@ -58,7 +58,7 @@ const Crawler = require( "crawler" );
 const Spider  = new Crawler;
 
 Spider.get( "http://google.com", ( response ) => {
-    let $    = response.body;
+    let $    = response.html;
     let data = response.data;
 
     console.log( $( "title" ).text() );
@@ -217,13 +217,25 @@ Sends the requests. Returns a Promise which resolves to a new `Response` object.
 
 Creates a new `Response` instance with `data` and `body`.
 
+#### **public** .raw
+
+Returns the raw response body.
+
+#### **public** .html
+
+Returns a `Cheerio` object for the response body.
+
+#### **public** .data
+
+Returns a the response data.
+
 #### **private** .setData( value )
 
 Sets the data for the current response.
 
-#### **private** .setBody( value )
+#### **private** .setHtml( value )
 
-Sets the body for the current response.
+Sets the html body for the current response.
 
 ## Tests
 

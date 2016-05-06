@@ -39,8 +39,6 @@ class Sitemap {
             auto        : true
         }, options );
 
-        console.log( this.options.ignored )
-
         this.base  = website;
         this.index = 1;
 
@@ -125,7 +123,7 @@ class Sitemap {
 
         return () => {
             return new Request( url, ( response ) => {
-                let $    = response.body;
+                let $    = response.html;
                 let data = response.data;
 
                 $( "a" ).each( ( i, url ) => {

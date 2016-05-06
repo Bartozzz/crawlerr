@@ -1,6 +1,6 @@
 {
     "name"          : "crawlerr",
-    "version"       : "0.0.2",
+    "version"       : "0.0.3",
     "keywords"      : [ "crawler", "spider", "webcrawler", "sitemap" ],
     "description"   : "A simple and fully customizable web crawler for Node.js",
 

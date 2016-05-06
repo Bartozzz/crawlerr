@@ -15,12 +15,13 @@ class Response {
      * Creates a new `Response` instance with `data` and `body`.
      *
      * @param   object  data
-     * @param   string  html
+     * @param   string  body
      * @access  public
      */
-    constructor( data, html ) {
+    constructor( data, body ) {
+        this.raw  = body;
         this.data = this.setData( data );
-        this.body = this.setBody( html );
+        this.html = this.setHtml( body );
     }
 
     /**
@@ -35,13 +36,13 @@ class Response {
     }
 
     /**
-     * Sets the body for the current response.
+     * Sets the html body for the current response.
      *
      * @param   string  value
      * @return  object
      * @access  private
      */
-    setBody( value ) {
+    setHtml( value ) {
         return cheerio.load( value );
     }
 };

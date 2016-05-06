@@ -20,6 +20,8 @@
     - [.on( event, callback )](#public-on-event-callback-)
   - [new Sitemap( website, options )](#new-sitemap-website-options-)
     - [.start()](#public-start-1)
+    - [.isIgnored( url )](#private-isignored-url-)
+    - [.isAllowed( url )](#private-isallowed-url-)
     - [.extract( url )](#private-extract-url-)
     - [.on( event, callback )](#public-on-event-callback--1)
   - [new LinkCollection( parameters )](#new-linkcollection-parameters-)
@@ -29,8 +31,11 @@
     - [.setCallback( callback )](#private-setcallback-callback-)
     - [.send()](#public-send)
   - [new Response( data, body )](#new-response-data-body-)
+    - [.raw](#public-raw)
+    - [.data](#public-data)
+    - [.html](#public-html)
     - [.setData( value )](#private-setdata-value-)
-    - [.setBody( value )](#private-setbody-value-)
+    - [.setHtml( value )](#private-setbody-value-)
 - [Tests](#tests)
 
 ## Installation
@@ -168,6 +173,14 @@ Create a new `Sitemap` instance for a website with optionally injected options.
 | concurrency | 10      | How many request can be send at the same time  |
 | interval    | 250     | How often should new request be send (in ms)   |
 | auto        | true    | Whether it should start scanning automatically |
+
+#### **private** .isIgnored( url )
+
+Returns true if a url is on the `ignored` list.
+
+#### **private** .isAllowed( url )
+
+Returns true if a url is on the `allowed` list.
 
 #### **public** .start()
 

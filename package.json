@@ -1,6 +1,6 @@
 {
     "name"          : "crawlerr",
-    "version"       : "0.0.31",
+    "version"       : "0.1.0",
     "keywords"      : [ "crawler", "spider", "webcrawler", "sitemap" ],
     "description"   : "A simple and fully customizable web crawler for Node.js",
 
@@ -19,20 +19,22 @@
     },
 
     "dependencies" : {
-        "lodash"            : "latest",
-        "colors"            : "^1.1.2",
-        "cheerio"           : "^0.20.0",
-        "request"           : "^2.72.0",
-        "get-link"          : "^0.0.2",
-        "event-emitter"     : "^0.3.4",
-        "basic-collection"  : "^0.1.12"
+        "merge-descriptors" : "latest",
+        "wildcard-named"    : "latest",
+        "queue-promise"     : "latest",
+        "retry-request"     : "latest",
+        "bloomfilter"       : "latest",
+        "parseurl"          : "latest",
+        "get-link"          : "latest",
+        "type-is"           : "latest",
+        "cheerio"           : "latest"
     },
 
     "devDependencies" : {
-        "mocha"     : "^2.4.5"
+        "mocha" : "^2.4.5"
     },
 
     "scripts" : {
-        "test"      : "mocha"
+        "test" : "mocha"
     }
 }

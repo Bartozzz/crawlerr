@@ -1,5 +1,7 @@
 # Crawlerr
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Bartozzz/crawlerr.svg)](https://greenkeeper.io/)
+
 > A simple and fully customizable web crawler for Node.js.
 
 ## Table of contents:

@@ -1,10 +1,13 @@
-import mixin   from "merge-descriptors";
-import Queue   from "queue-promise";
-import getLink from "get-link";
-import Base    from "./index";
+import { BloomFilter }  from "bloomfilter";
+import Queue            from "queue-promise";
+import getLink          from "get-link";
 
-export default mixin( Base, {
-    init() {
+export default {
+    cache : new BloomFilter( 16 * 64 * 256, 17 ),
+
+    queue : null,
+
+    start() {
         this.queue = new Queue( {
             concurrency : this.opts.concurrency,
             interval    : this.opts.interval
@@ -30,11 +33,11 @@ export default mixin( Base, {
             const href = res.get( url ).attr( "href" );
             const link = getLink( this.base, href );
 
-            if ( link && !this.links.test( link ) ) {
+            if ( link && !this.cache.test( link ) ) {
                 const extracted = this.handle( link );
 
                 if ( extracted ) {
-                    this.links.add( link );
+                    this.cache.add( link );
                     this.queue.add( extracted );
                 }
             }
@@ -57,4 +60,4 @@ export default mixin( Base, {
             } );
         };
     }
-} );
+};

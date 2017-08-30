@@ -1,10 +1,8 @@
-"use strict";
+import url      from "url";
+import mixin    from "merge-descriptors";
+import wildcard from "wildcard-named";
 
-const url      = require( "url" );
-const mixin    = require( "merge-descriptors" );
-const wildcard = require( "wildcard-named" );
-
-module.exports = {
+export default {
     crawling  : false,
     callbacks : {},
 
@@ -12,7 +10,8 @@ module.exports = {
         if ( ! this.crawling ) {
             this.crawling = true;
 
-            setTimeout( this.init.bind( this ), 0 );
+            // Deffer:
+            setTimeout( () => this.init(), 0 );
         }
 
         this.add( uri, callback );
@@ -27,8 +26,8 @@ module.exports = {
 
     check( uri, req, res ) {
         for ( let index in this.callbacks ) {
-            let requested = wildcard( uri, index );
-            let callback  = this.callbacks[ index ];
+            const requested = wildcard( uri, index );
+            const callback  = this.callbacks[ index ];
 
             if ( uri === index || requested ) {
                 mixin( req.params, requested || {} );

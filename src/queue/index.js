@@ -1,12 +1,10 @@
-"use strict";
+import url              from "url";
+import { BloomFilter }  from "bloomfilter";
+import request          from "retry-request";
 
-const url     = require( "url" );
-const Bloom   = require( "bloomfilter" ).BloomFilter;
-const request = require( "retry-request" );
-
-module.exports = {
-    links : new Bloom( 64 * 256, 16 ),
-    queue : undefined,
+export default {
+    links : new BloomFilter( 64 * 256, 16 ),
+    queue : null,
 
     init() {
         throw "Not implemented";
@@ -20,7 +18,7 @@ module.exports = {
         throw "Not implemented";
     },
 
-    request( uri, done, reject ) {
+    request( uri, resolve, reject ) {
         if ( ! uri.startsWith( this.base ) )
             uri = url.resolve( this.base, uri );
 
@@ -40,7 +38,7 @@ module.exports = {
             req.__proto__ = this.req;
             res.__proto__ = this.res;
 
-            done( req, res );
+            resolve( req, res );
         } );
     }
 };

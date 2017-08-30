@@ -1,8 +1,6 @@
-"use strict";
+import cheerio from "cheerio";
 
-const cheerio = require( "cheerio" );
-
-module.exports = {
+export default {
     cheerio : null,
 
     get( element ) {

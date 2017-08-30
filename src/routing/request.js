@@ -1,10 +1,8 @@
-"use strict";
+import http     from "http";
+import typeis   from "type-is";
+import parseUrl from "parseurl";
 
-const http     = require( "http" );
-const typeis   = require( "type-is" );
-const parseUrl = require( "parseurl" );
-
-module.exports = {
+export default {
     __proto__ : http.IncomingMessage.prototype,
 
     params : {},

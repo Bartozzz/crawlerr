@@ -1,45 +1,57 @@
 "use strict";
 
-const url = require("url");
-const Bloom = require("bloomfilter").BloomFilter;
-const request = require("retry-request");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-module.exports = {
-    links: new Bloom(64 * 256, 16),
-    queue: undefined,
+var _url = require("url");
 
-    init() {
+var _url2 = _interopRequireDefault(_url);
+
+var _bloomfilter = require("bloomfilter");
+
+var _retryRequest = require("retry-request");
+
+var _retryRequest2 = _interopRequireDefault(_retryRequest);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    links: new _bloomfilter.BloomFilter(64 * 256, 16),
+    queue: null,
+
+    init: function init() {
         throw "Not implemented";
     },
-
-    parse(req, res) {
+    parse: function parse(req, res) {
         throw "Not implemented";
     },
-
-    handle(uri) {
+    handle: function handle(uri) {
         throw "Not implemented";
     },
+    request: function request(uri, resolve, reject) {
+        var _this = this;
 
-    request(uri, done, reject) {
-        if (!uri.startsWith(this.base)) uri = url.resolve(this.base, uri);
+        if (!uri.startsWith(this.base)) uri = _url2.default.resolve(this.base, uri);
 
-        request(uri, (error, response, body) => {
+        (0, _retryRequest2.default)(uri, function (error, response, body) {
             if (error || response.statusCode != 200) {
                 reject(error || uri);
             }
 
-            const req = {};
-            const res = response;
+            var req = {};
+            var res = response;
 
             // Set circular references:
             res.req = req;
             req.res = res;
 
             // Alter the prototypes:
-            req.__proto__ = this.req;
-            res.__proto__ = this.res;
+            req.__proto__ = _this.req;
+            res.__proto__ = _this.res;
 
-            done(req, res);
+            resolve(req, res);
         });
     }
 };
+module.exports = exports["default"];

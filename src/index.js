@@ -1,33 +1,33 @@
-"use strict";
+import http             from "http";
+import mixin            from "merge-descriptors";
+import { EventEmitter } from "events";
+import SpiderQueue      from "./queue/promise";
+import SpiderRouter     from "./routing/router";
+import SpiderRequest    from "./routing/request";
+import SpiderResponse   from "./routing/response";
 
-const http           = require( "http" );
-const mixin          = require( "merge-descriptors" );
-const EventEmitter   = require( "events" ).prototype;
-const SpiderQueue    = require( "./queue/promise" );
-const SpiderRouter   = require( "./routing/router" );
-const SpiderRequest  = require( "./routing/request" );
-const SpiderResponse = require( "./routing/response" );
-
-function createCrawler( base, options ) {
+function createCrawler( base, options = {} ) {
     if ( typeof base !== "string" ) {
         throw new Error( `Base must be a string, not ${typeof base}` );
     }
 
-    options             = options             || {}
-    options.queue       = options.queue       || SpiderQueue;
-    options.interval    = options.interval    || 250;
-    options.concurrency = options.concurrency || 10;
+    const config = {
+        queue       : SpiderQueue,
+        interval    : 250,
+        concurrency : 10,
+        ...options
+    };
 
     const crawler = {
         base : base,
-        opts : options,
+        opts : config,
         req  : SpiderRequest,
         res  : SpiderResponse
     };
 
-    mixin( crawler, options.queue, false );
+    mixin( crawler, config.queue, false );
     mixin( crawler, SpiderRouter, false );
-    mixin( crawler, EventEmitter, false );
+    mixin( crawler, EventEmitter.prototype, false );
 
     return crawler;
 };

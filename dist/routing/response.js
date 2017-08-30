@@ -1,15 +1,24 @@
 "use strict";
 
-const cheerio = require("cheerio");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-module.exports = {
+var _cheerio = require("cheerio");
+
+var _cheerio2 = _interopRequireDefault(_cheerio);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
     cheerio: null,
 
-    get(element) {
+    get: function get(element) {
         if (!this.cheerio) {
-            this.cheerio = cheerio.load(this.body);
+            this.cheerio = _cheerio2.default.load(this.body);
         }
 
         return this.cheerio(element);
     }
 };
+module.exports = exports["default"];

@@ -1,11 +1,9 @@
-"use strict";
+import mixin   from "merge-descriptors";
+import Queue   from "queue-promise";
+import getLink from "get-link";
+import Base    from "./index";
 
-const index   = require( "./index" );
-const mixin   = require( "merge-descriptors" );
-const Queue   = require( "queue-promise" );
-const getLink = require( "get-link" );
-
-module.exports = mixin( index, {
+export default mixin( Base, {
     init() {
         this.queue = new Queue( {
             concurrency : this.opts.concurrency,
@@ -17,8 +15,8 @@ module.exports = mixin( index, {
                 this.queue.on( "start", () => this.emit( "start" ) );
                 this.queue.on( "stop", () => this.emit( "stop" ) );
                 this.queue.on( "tick", () => this.emit( "tick" ) );
-                this.queue.on( "resolve", a => this.emit( "request", a ) );
-                this.queue.on( "reject", a => this.emit( "error", a ) );
+                this.queue.on( "resolve", e => this.emit( "request", e ) );
+                this.queue.on( "reject", e => this.emit( "error", e ) );
 
                 this.queue.start();
             } )

@@ -1,40 +1,32 @@
 {
-    "name"          : "crawlerr",
-    "version"       : "0.1.0",
-    "keywords"      : [ "crawler", "spider", "webcrawler", "sitemap" ],
-    "description"   : "A simple and fully customizable web crawler for Node.js",
-
-    "author"    : "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
-    "license"   : "MIT",
-
-    "main"  : "src/index.js",
-
-    "repository" : {
-        "type" : "git",
-        "url"  : "https://github.com/Bartozzz/crawlerr.git"
+    "name": "crawlerr",
+    "version": "0.1.0",
+    "keywords": [
+        "crawler",
+        "spider",
+        "webcrawler",
+        "sitemap"
+    ],
+    "description": "A simple and fully customizable web crawler for Node.js",
+    "author": "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
+    "license": "MIT",
+    "main": "src/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Bartozzz/crawlerr.git"
     },
-
-    "bugs" : {
-        "url" : "https://github.com/Bartozzz/crawlerr/issues"
+    "bugs": {
+        "url": "https://github.com/Bartozzz/crawlerr/issues"
     },
-
-    "dependencies" : {
-        "merge-descriptors" : "latest",
-        "wildcard-named"    : "latest",
-        "queue-promise"     : "latest",
-        "retry-request"     : "latest",
-        "bloomfilter"       : "latest",
-        "parseurl"          : "latest",
-        "get-link"          : "latest",
-        "type-is"           : "latest",
-        "cheerio"           : "latest"
-    },
-
-    "devDependencies" : {
-        "mocha" : "^2.4.5"
-    },
-
-    "scripts" : {
-        "test" : "mocha"
+    "dependencies": {
+        "wildcard-named": "latest",
+        "queue-promise": "latest",
+        "get-link": "latest",
+        "merge-descriptors": "^1.0.1",
+        "retry-request": "^3.0.0",
+        "bloomfilter": "^0.0.16",
+        "parseurl": "^1.3.1",
+        "type-is": "^1.6.15",
+        "cheerio": "^1.0.0-rc.2"
     }
 }

@@ -5,7 +5,7 @@ spider.on( "start", () => console.log( "Start event" ) );
 spider.on( "error", error => console.log( `[E] ${error}` ) );
 spider.on( "request", url => console.log( `[S] ${url}` ) );
 
-spider.when( "/post/[digit:id]/[all:slug]" ).then( req => {
+spider.when( "/post/[digit:id]/[all:slug]" ).then( ( { req, res, uri } ) => {
     const id   = req.param( "id" );
     const slug = req.param( "slug" ).split( "?" )[ 0 ];
 

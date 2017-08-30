@@ -3,23 +3,12 @@ import mixin    from "merge-descriptors";
 import wildcard from "wildcard-named";
 
 export default {
-    crawling  : false,
     callbacks : {},
 
-    when( uri, callback ) {
-        this.add( uri, callback );
-
-        if ( !this.crawling ) {
-            this.crawling = true;
-            this.init();
-        }
-    },
-
-    add( uri, callback ) {
-        const href = url.resolve( this.base, uri );
-        const resp = callback;
-
-        this.callbacks[ href ] = resp;
+    when( uri ) {
+        return new Promise( resolve => {
+            this.callbacks[ url.resolve( this.base, uri ) ] = resolve;
+        } );
     },
 
     check( uri, req, res ) {

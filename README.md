@@ -83,6 +83,10 @@ Requests `url`. Returns a `Promise` with `{ req, res, uri }` as response, where 
 
 Searches on the entire website (not just a single page) urls matching the `url` pattern. `url` can include named [wildcards](https://github.com/Bartozzz/wildcard-named) which can be then retrieved in the response with `res.param`.
 
+#### **public** `.on( event, callback )`
+
+Executes a `callback` for a given `event`. For more informations about which events are emitted, reffer to [queue-promise](https://github.com/Bartozzz/queue-promise).
+
 #### **public** `start()`
 
 Starts the crawler.

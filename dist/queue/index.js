@@ -34,7 +34,7 @@ exports.default = {
 
         if (!uri.startsWith(this.base)) uri = _url2.default.resolve(this.base, uri);
 
-        (0, _retryRequest2.default)(uri, function (error, response, body) {
+        (0, _retryRequest2.default)(uri, function (error, response) {
             if (error || response.statusCode != 200) {
                 reject(error || uri);
             }

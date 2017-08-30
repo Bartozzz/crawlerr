@@ -4,7 +4,7 @@ export default {
     cheerio : null,
 
     get( element ) {
-        if ( ! this.cheerio ) {
+        if ( !this.cheerio ) {
             this.cheerio = cheerio.load( this.body );
         }
 

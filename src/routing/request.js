@@ -1,6 +1,5 @@
-import http     from "http";
-import typeis   from "type-is";
-import parseUrl from "parseurl";
+import http   from "http";
+import typeis from "type-is";
 
 export default {
     __proto__ : http.IncomingMessage.prototype,

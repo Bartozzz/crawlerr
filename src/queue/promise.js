@@ -30,7 +30,7 @@ export default mixin( Base, {
             const href = res.get( url ).attr( "href" );
             const link = getLink( this.base, href );
 
-            if ( link && ! this.links.test( link ) ) {
+            if ( link && !this.links.test( link ) ) {
                 const extracted = this.handle( link );
 
                 if ( extracted ) {

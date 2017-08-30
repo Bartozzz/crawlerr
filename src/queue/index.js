@@ -19,10 +19,10 @@ export default {
     },
 
     request( uri, resolve, reject ) {
-        if ( ! uri.startsWith( this.base ) )
+        if ( !uri.startsWith( this.base ) )
             uri = url.resolve( this.base, uri );
 
-        request( uri, ( error, response, body ) => {
+        request( uri, ( error, response ) => {
             if ( error || response.statusCode != 200 ) {
                 reject( error || uri );
             }

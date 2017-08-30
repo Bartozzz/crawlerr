@@ -8,10 +8,6 @@ var _typeof2 = require("babel-runtime/helpers/typeof");
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _http = require("http");
-
-var _http2 = _interopRequireDefault(_http);
-
 var _mergeDescriptors = require("merge-descriptors");
 
 var _mergeDescriptors2 = _interopRequireDefault(_mergeDescriptors);
@@ -61,7 +57,7 @@ function createCrawler(base) {
     (0, _mergeDescriptors2.default)(crawler, _events.EventEmitter.prototype, false);
 
     return crawler;
-};
+}
 
 module.exports = createCrawler;
 module.exports.request = _request2.default;

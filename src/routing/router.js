@@ -7,7 +7,7 @@ export default {
     callbacks : {},
 
     when( uri, callback ) {
-        if ( ! this.crawling ) {
+        if ( !this.crawling ) {
             this.crawling = true;
 
             // Deffer:
@@ -25,7 +25,7 @@ export default {
     },
 
     check( uri, req, res ) {
-        for ( let index in this.callbacks ) {
+        for ( const index in this.callbacks ) {
             const requested = wildcard( uri, index );
             const callback  = this.callbacks[ index ];
 

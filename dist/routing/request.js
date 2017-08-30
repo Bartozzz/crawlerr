@@ -12,10 +12,6 @@ var _typeIs = require("type-is");
 
 var _typeIs2 = _interopRequireDefault(_typeIs);
 
-var _parseurl = require("parseurl");
-
-var _parseurl2 = _interopRequireDefault(_parseurl);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {

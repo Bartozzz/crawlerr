@@ -1,4 +1,3 @@
-import http             from "http";
 import mixin            from "merge-descriptors";
 import { EventEmitter } from "events";
 import SpiderQueue      from "./queue/promise";
@@ -30,7 +29,7 @@ function createCrawler( base, options = {} ) {
     mixin( crawler, EventEmitter.prototype, false );
 
     return crawler;
-};
+}
 
 module.exports          = createCrawler;
 module.exports.request  = SpiderRequest;

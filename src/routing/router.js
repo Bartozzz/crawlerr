@@ -8,6 +8,7 @@ export default {
      * Registered callbacks.
      *
      * @type    {object}
+     * @access  protected
      */
     callbacks : {},
 
@@ -29,6 +30,7 @@ export default {
      *
      * @param   {string}    uri
      * @return  {Promise}
+     * @access  public
      */
     get( uri ) {
         if ( !uri.startsWith( this.base ) ) {
@@ -65,6 +67,7 @@ export default {
      * @param   {Request}   req
      * @param   {Response}  res
      * @return  {void}
+     * @access  protected
      */
     check( uri, req, res ) {
         for ( const index in this.callbacks ) {

@@ -27,6 +27,7 @@ exports.default = {
      * @see     https://en.wikipedia.org/wiki/Bloom_filter
      * @see     https://hur.st/bloomfilter?n=10000&p=1.0E-5
      * @type    {BloomFilter}
+     * @access  protected
      */
     cache: new _bloomfilter.BloomFilter(32 * 64 * 128, 17),
 
@@ -34,6 +35,7 @@ exports.default = {
      * Queue object.
      *
      * @type    {Queue}
+     * @access  protected
      */
     queue: null,
 
@@ -108,6 +110,7 @@ exports.default = {
      *
      * @param   {string}    url
      * @return  {Promise}
+     * @access  protected
      */
     handle: function handle(url) {
         var _this3 = this;

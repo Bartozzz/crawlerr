@@ -12,24 +12,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     /**
-     * Parsed response content.
-     *
-     * @type    {cheerio}
-     */
-    document: null,
-
-    /**
      * Returns a cheerio object.
      *
      * @param   {string}    selector
      * @return  {cheerio}
+     * @access  public
      */
     get: function get(selector) {
-        if (!this.document) {
-            this.document = _cheerio2.default.load(this.body);
-        }
-
         return this.document(selector);
+    },
+
+
+    /**
+     * Loads contents and returns a valid cheerio object.
+     *
+     * @return  {cheerio}
+     * @access  public
+     */
+    get document() {
+        return _cheerio2.default.load(this.body);
     }
 };
 module.exports = exports["default"];

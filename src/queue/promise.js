@@ -9,6 +9,7 @@ export default {
      * @see     https://en.wikipedia.org/wiki/Bloom_filter
      * @see     https://hur.st/bloomfilter?n=10000&p=1.0E-5
      * @type    {BloomFilter}
+     * @access  protected
      */
     cache : new BloomFilter( 32 * 64 * 128, 17 ),
 
@@ -16,6 +17,7 @@ export default {
      * Queue object.
      *
      * @type    {Queue}
+     * @access  protected
      */
     queue : null,
 
@@ -76,6 +78,7 @@ export default {
      *
      * @param   {string}    url
      * @return  {Promise}
+     * @access  protected
      */
     handle( url ) {
         return () => new Promise( ( resolve, reject ) => {

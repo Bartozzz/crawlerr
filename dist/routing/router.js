@@ -31,6 +31,7 @@ exports.default = {
      * Registered callbacks.
      *
      * @type    {object}
+     * @access  protected
      */
     callbacks: {},
 
@@ -55,6 +56,7 @@ exports.default = {
      *
      * @param   {string}    uri
      * @return  {Promise}
+     * @access  public
      */
     get: function get(uri) {
         var _this2 = this;
@@ -94,6 +96,7 @@ exports.default = {
      * @param   {Request}   req
      * @param   {Response}  res
      * @return  {void}
+     * @access  protected
      */
     check: function check(uri, req, res) {
         for (var index in this.callbacks) {

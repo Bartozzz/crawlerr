@@ -2,23 +2,23 @@ import cheerio from "cheerio";
 
 export default {
     /**
-     * Parsed response content.
-     *
-     * @type    {cheerio}
-     */
-    document : null,
-
-    /**
      * Returns a cheerio object.
      *
      * @param   {string}    selector
      * @return  {cheerio}
+     * @access  public
      */
     get( selector ) {
-        if ( !this.document ) {
-            this.document = cheerio.load( this.body );
-        }
-
         return this.document( selector );
+    },
+
+    /**
+     * Loads contents and returns a valid cheerio object.
+     *
+     * @return  {cheerio}
+     * @access  public
+     */
+    get document() {
+        return cheerio.load( this.body );
     }
 };

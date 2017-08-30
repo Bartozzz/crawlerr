@@ -11,7 +11,6 @@ function createCrawler( base, options = {} ) {
     }
 
     const config = {
-        queue       : SpiderQueue,
         interval    : 250,
         concurrency : 10,
         ...options
@@ -24,7 +23,7 @@ function createCrawler( base, options = {} ) {
         res  : SpiderResponse
     };
 
-    mixin( crawler, config.queue, false );
+    mixin( crawler, SpiderQueue, false );
     mixin( crawler, SpiderRouter, false );
     mixin( crawler, EventEmitter.prototype, false );
 

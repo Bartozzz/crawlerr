@@ -1,13 +1,24 @@
 import cheerio from "cheerio";
 
 export default {
-    cheerio : null,
+    /**
+     * Parsed response content.
+     *
+     * @type    {cheerio}
+     */
+    document : null,
 
-    get( element ) {
-        if ( !this.cheerio ) {
-            this.cheerio = cheerio.load( this.body );
+    /**
+     * Returns a cheerio object.
+     *
+     * @param   {string}    selector
+     * @return  {cheerio}
+     */
+    get( selector ) {
+        if ( !this.document ) {
+            this.document = cheerio.load( this.body );
         }
 
-        return this.cheerio( element );
+        return this.document( selector );
     }
 };

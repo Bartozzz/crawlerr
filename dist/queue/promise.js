@@ -8,9 +8,7 @@ var _promise = require("babel-runtime/core-js/promise");
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _mergeDescriptors = require("merge-descriptors");
-
-var _mergeDescriptors2 = _interopRequireDefault(_mergeDescriptors);
+var _bloomfilter = require("bloomfilter");
 
 var _queuePromise = require("queue-promise");
 
@@ -20,14 +18,32 @@ var _getLink = require("get-link");
 
 var _getLink2 = _interopRequireDefault(_getLink);
 
-var _index = require("./index");
-
-var _index2 = _interopRequireDefault(_index);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _mergeDescriptors2.default)(_index2.default, {
-    init: function init() {
+exports.default = {
+    /**
+     * Parsed urls are cached using Bloom filter.
+     *
+     * @see     https://en.wikipedia.org/wiki/Bloom_filter
+     * @see     https://hur.st/bloomfilter?n=10000&p=1.0E-5
+     * @type    {BloomFilter}
+     */
+    cache: new _bloomfilter.BloomFilter(32 * 64 * 128, 17),
+
+    /**
+     * Queue object.
+     *
+     * @type    {Queue}
+     */
+    queue: null,
+
+    /**
+     * Creates a new queue and initialises it.
+     *
+     * @return  {void}
+     * @access  public
+     */
+    start: function start() {
         var _this = this;
 
         this.queue = new _queuePromise2.default({
@@ -57,6 +73,15 @@ exports.default = (0, _mergeDescriptors2.default)(_index2.default, {
             _this.emit("error", error);
         });
     },
+
+
+    /**
+     * Searches for new links from response and adds those to the queue.
+     *
+     * @param   {Request}   req
+     * @param   {Response}  res
+     * @access  protected
+     */
     parse: function parse(req, res) {
         var _this2 = this;
 
@@ -64,33 +89,46 @@ exports.default = (0, _mergeDescriptors2.default)(_index2.default, {
             var href = res.get(url).attr("href");
             var link = (0, _getLink2.default)(_this2.base, href);
 
-            if (link && !_this2.links.test(link)) {
+            if (link && !_this2.cache.test(link)) {
                 var extracted = _this2.handle(link);
 
                 if (extracted) {
-                    _this2.links.add(link);
+                    _this2.cache.add(link);
                     _this2.queue.add(extracted);
                 }
             }
         });
     },
+
+
+    /**
+     * Handles a given url:
+     * - executes a callback if it matches any registered wildcard;
+     * - parses its content for new links;
+     *
+     * @param   {string}    url
+     * @return  {Promise}
+     */
     handle: function handle(url) {
         var _this3 = this;
 
         return function () {
             return new _promise2.default(function (resolve, reject) {
-                _this3.request(url, function (req, res) {
+                _this3.get(url).then(function (_ref) {
+                    var req = _ref.req,
+                        res = _ref.res;
+
                     try {
                         _this3.check(url, req, res);
                         _this3.parse(req, res);
                     } catch (error) {
-                        reject(url);
+                        reject(error);
                     }
 
                     resolve(url);
-                }, reject);
+                }).catch(reject);
             });
         };
     }
-});
+};
 module.exports = exports["default"];

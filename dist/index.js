@@ -40,7 +40,6 @@ function createCrawler(base) {
     }
 
     var config = (0, _extends3.default)({
-        queue: _promise2.default,
         interval: 250,
         concurrency: 10
     }, options);
@@ -52,7 +51,8 @@ function createCrawler(base) {
         res: _response2.default
     };
 
-    (0, _mergeDescriptors2.default)(crawler, config.queue, false);
+    // Glues all the components together:
+    (0, _mergeDescriptors2.default)(crawler, _promise2.default, false);
     (0, _mergeDescriptors2.default)(crawler, _router2.default, false);
     (0, _mergeDescriptors2.default)(crawler, _events.EventEmitter.prototype, false);
 

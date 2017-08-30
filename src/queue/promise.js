@@ -3,10 +3,28 @@ import Queue            from "queue-promise";
 import getLink          from "get-link";
 
 export default {
-    cache : new BloomFilter( 16 * 64 * 256, 17 ),
+    /**
+     * Parsed urls are cached using Bloom filter.
+     *
+     * @see     https://en.wikipedia.org/wiki/Bloom_filter
+     * @see     https://hur.st/bloomfilter?n=10000&p=1.0E-5
+     * @type    {BloomFilter}
+     */
+    cache : new BloomFilter( 32 * 64 * 128, 17 ),
 
+    /**
+     * Queue object.
+     *
+     * @type    {Queue}
+     */
     queue : null,
 
+    /**
+     * Creates a new queue and initialises it.
+     *
+     * @return  {void}
+     * @access  public
+     */
     start() {
         this.queue = new Queue( {
             concurrency : this.opts.concurrency,
@@ -28,6 +46,13 @@ export default {
             } );
     },
 
+    /**
+     * Searches for new links from response and adds those to the queue.
+     *
+     * @param   {Request}   req
+     * @param   {Response}  res
+     * @access  protected
+     */
     parse( req, res ) {
         res.get( "a" ).each( ( i, url ) => {
             const href = res.get( url ).attr( "href" );
@@ -44,6 +69,14 @@ export default {
         } );
     },
 
+    /**
+     * Handles a given url:
+     * - executes a callback if it matches any registered wildcard;
+     * - parses its content for new links;
+     *
+     * @param   {string}    url
+     * @return  {Promise}
+     */
     handle( url ) {
         return new Promise( ( resolve, reject ) => {
             this.get( url ).then( ( { req, res } ) => {

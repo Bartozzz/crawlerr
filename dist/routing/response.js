@@ -11,14 +11,25 @@ var _cheerio2 = _interopRequireDefault(_cheerio);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    cheerio: null,
+    /**
+     * Parsed response content.
+     *
+     * @type    {cheerio}
+     */
+    document: null,
 
-    get: function get(element) {
-        if (!this.cheerio) {
-            this.cheerio = _cheerio2.default.load(this.body);
+    /**
+     * Returns a cheerio object.
+     *
+     * @param   {string}    selector
+     * @return  {cheerio}
+     */
+    get: function get(selector) {
+        if (!this.document) {
+            this.document = _cheerio2.default.load(this.body);
         }
 
-        return this.cheerio(element);
+        return this.document(selector);
     }
 };
 module.exports = exports["default"];

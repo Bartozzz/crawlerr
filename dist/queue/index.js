@@ -17,7 +17,20 @@ var _retryRequest2 = _interopRequireDefault(_retryRequest);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    links: new _bloomfilter.BloomFilter(64 * 256, 16),
+    /**
+     * Parsed urls are cached using Bloom filter.
+     *
+     * @see     https://en.wikipedia.org/wiki/Bloom_filter
+     * @see     https://hur.st/bloomfilter?n=10000&p=1.0E-5
+     * @type    {BloomFilter}
+     */
+    cache: new _bloomfilter.BloomFilter(16 * 64 * 256, 17),
+
+    /**
+     * Queue object.
+     *
+     * @type    {Queue}
+     */
     queue: null,
 
     init: function init() {

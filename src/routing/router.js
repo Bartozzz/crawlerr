@@ -4,14 +4,32 @@ import mixin    from "merge-descriptors";
 import wildcard from "wildcard-named";
 
 export default {
+    /**
+     * Registered callbacks.
+     *
+     * @type    {object}
+     */
     callbacks : {},
 
+    /**
+     * Add a handler for a specific uri. Accepts wildcards.
+     *
+     * @param   {string}    uri
+     * @return  {Promise}
+     * @access  public
+     */
     when( uri ) {
         return new Promise( resolve => {
             this.callbacks[ url.resolve( this.base, uri ) ] = resolve;
         } );
     },
 
+    /**
+     * Requests a single uri.
+     *
+     * @param   {string}    uri
+     * @return  {Promise}
+     */
     get( uri ) {
         if ( !uri.startsWith( this.base ) ) {
             uri = url.resolve( this.base, uri );
@@ -38,12 +56,23 @@ export default {
             } );
         } );
     },
+
+    /**
+     * Checks whenever an uri matches the registered callbacks and eventually
+     * executes the callback.
+     *
+     * @param   {string}    uri
+     * @param   {Request}   req
+     * @param   {Response}  res
+     * @return  {void}
+     */
     check( uri, req, res ) {
         for ( const index in this.callbacks ) {
             const requested = wildcard( uri, index );
             const callback  = this.callbacks[ index ];
 
             if ( uri === index || requested ) {
+                // Merge request parameters with wildcard output:
                 mixin( req.params, requested || {} );
 
                 callback( { req, res, uri } );

@@ -23,6 +23,7 @@ function createCrawler( base, options = {} ) {
         res  : SpiderResponse
     };
 
+    // Glues all the components together:
     mixin( crawler, SpiderQueue, false );
     mixin( crawler, SpiderRouter, false );
     mixin( crawler, EventEmitter.prototype, false );

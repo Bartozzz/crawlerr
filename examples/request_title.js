@@ -1,4 +1,4 @@
-const crawler = require( "../src/index" );
+const crawler = require( "../dist" );
 const spider  = crawler( "http://google.com" );
 
 spider.request( "/", ( req, res ) => {

@@ -1,4 +1,4 @@
-const crawler = require( "../src/index" );
+const crawler = require( "../dist" );
 const spider  = crawler( "http://blog.npmjs.org/" );
 
 spider.on( "start", () => console.log( "Start event" ) );

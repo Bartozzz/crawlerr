@@ -18,7 +18,8 @@ export default {
 
             if ( uri === index || requested ) {
                 mixin( req.params, requested || {} );
-                callback( req, res, uri );
+
+                callback( { req, res, uri } );
             }
         }
     }

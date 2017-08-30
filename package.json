@@ -19,14 +19,14 @@
         "url": "https://github.com/Bartozzz/crawlerr/issues"
     },
     "dependencies": {
-        "wildcard-named": "latest",
-        "queue-promise": "latest",
+        "bloomfilter": "^0.0.16",
+        "cheerio": "^1.0.0-rc.2",
         "get-link": "latest",
         "merge-descriptors": "^1.0.1",
-        "retry-request": "^3.0.0",
-        "bloomfilter": "^0.0.16",
         "parseurl": "^1.3.1",
+        "queue-promise": "^0.1.2",
+        "retry-request": "^3.0.0",
         "type-is": "^1.6.15",
-        "cheerio": "^1.0.0-rc.2"
+        "wildcard-named": "^0.0.26"
     }
 }

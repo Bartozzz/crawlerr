@@ -14,6 +14,14 @@ export default {
      * @access  public
      */
     get( header ) {
+        if ( !header ) {
+            throw new TypeError( "Name argument is required to req.get" );
+        }
+
+        if ( typeof name !== "string" ) {
+            throw new TypeError( "Name must be a string to req.get" );
+        }
+
         const lower = header.toLowerCase();
 
         switch( lower ) {

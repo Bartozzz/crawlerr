@@ -4,33 +4,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _cheerio = require("cheerio");
-
-var _cheerio2 = _interopRequireDefault(_cheerio);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _jsdom = require("jsdom");
 
 exports.default = {
-    /**
-     * Returns a cheerio object.
-     *
-     * @param   {string}    selector
-     * @return  {cheerio}
-     * @access  public
-     */
-    get: function get(selector) {
-        return this.document(selector);
+    get jsdom() {
+        return new _jsdom.JSDOM(this.body);
     },
 
+    get window() {
+        return this.jsdom.window;
+    },
 
-    /**
-     * Loads contents and returns a valid cheerio object.
-     *
-     * @return  {cheerio}
-     * @access  public
-     */
     get document() {
-        return _cheerio2.default.load(this.body);
+        return this.window.document;
     }
 };
 module.exports = exports["default"];

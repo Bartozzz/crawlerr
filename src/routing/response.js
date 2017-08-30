@@ -1,24 +1,15 @@
-import cheerio from "cheerio";
+import { JSDOM } from "jsdom";
 
 export default {
-    /**
-     * Returns a cheerio object.
-     *
-     * @param   {string}    selector
-     * @return  {cheerio}
-     * @access  public
-     */
-    get( selector ) {
-        return this.document( selector );
+    get jsdom() {
+        return new JSDOM( this.body );
     },
 
-    /**
-     * Loads contents and returns a valid cheerio object.
-     *
-     * @return  {cheerio}
-     * @access  public
-     */
+    get window() {
+        return this.jsdom.window;
+    },
+
     get document() {
-        return cheerio.load( this.body );
+        return this.window.document;
     }
 };

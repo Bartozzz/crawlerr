@@ -56,8 +56,11 @@ export default {
      * @access  protected
      */
     parse( req, res ) {
-        res.get( "a" ).each( ( i, url ) => {
-            const href = res.get( url ).attr( "href" );
+        const document = res.document;
+        const anchors  = document.getElementsByTagName( "a" );
+
+        for ( const anchor of anchors ) {
+            const href = anchor.getAttribute( "href" );
             const link = getLink( this.base, href );
 
             if ( link && !this.cache.test( link ) ) {
@@ -68,7 +71,7 @@ export default {
                     this.queue.add( extracted );
                 }
             }
-        } );
+        }
     },
 
     /**

@@ -8,6 +8,10 @@ var _promise = require("babel-runtime/core-js/promise");
 
 var _promise2 = _interopRequireDefault(_promise);
 
+var _getIterator2 = require("babel-runtime/core-js/get-iterator");
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _bloomfilter = require("bloomfilter");
 
 var _queuePromise = require("queue-promise");
@@ -85,21 +89,43 @@ exports.default = {
      * @access  protected
      */
     parse: function parse(req, res) {
-        var _this2 = this;
+        var document = res.document;
+        var anchors = document.getElementsByTagName("a");
 
-        res.get("a").each(function (i, url) {
-            var href = res.get(url).attr("href");
-            var link = (0, _getLink2.default)(_this2.base, href);
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
 
-            if (link && !_this2.cache.test(link)) {
-                var extracted = _this2.handle(link);
+        try {
+            for (var _iterator = (0, _getIterator3.default)(anchors), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var anchor = _step.value;
 
-                if (extracted) {
-                    _this2.cache.add(link);
-                    _this2.queue.add(extracted);
+                var href = anchor.getAttribute("href");
+                var link = (0, _getLink2.default)(this.base, href);
+
+                if (link && !this.cache.test(link)) {
+                    var extracted = this.handle(link);
+
+                    if (extracted) {
+                        this.cache.add(link);
+                        this.queue.add(extracted);
+                    }
                 }
             }
-        });
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
     },
 
 
@@ -113,17 +139,17 @@ exports.default = {
      * @access  protected
      */
     handle: function handle(url) {
-        var _this3 = this;
+        var _this2 = this;
 
         return function () {
             return new _promise2.default(function (resolve, reject) {
-                _this3.get(url).then(function (_ref) {
+                _this2.get(url).then(function (_ref) {
                     var req = _ref.req,
                         res = _ref.res;
 
                     try {
-                        _this3.check(url, req, res);
-                        _this3.parse(req, res);
+                        _this2.check(url, req, res);
+                        _this2.parse(req, res);
                     } catch (error) {
                         reject(error);
                     }

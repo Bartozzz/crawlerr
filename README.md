@@ -7,7 +7,7 @@
 [![npm downloads](https://img.shields.io/npm/dt/crawlerr.svg)](https://www.npmjs.com/package/crawlerr)
   <br>
 
-**crawlerr** is simple and fully customizable web crawler for Node.js, based on Promises. It provides core features such as *server-side DOM* (JSDOM), *configurable pool size* and retries, *rate limit*. This tool also allows you to crawl specific urls only based on *wildcards*.
+**crawlerr** is simple and fully customizable web crawler for Node.js, based on Promises. It provides core features such as *server-side DOM* (JSDOM), *configurable pool size* and retries, *rate limit*. This tool also allows you to crawl specific urls only based on *wildcards*. It uses *Bloom filter* for caching.
 </div>
 
 <h2 align="center">Installation</h2>

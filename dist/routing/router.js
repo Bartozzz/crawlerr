@@ -23,18 +23,12 @@ exports.default = {
     callbacks: {},
 
     when: function when(uri, callback) {
-        var _this = this;
+        this.add(uri, callback);
 
         if (!this.crawling) {
             this.crawling = true;
-
-            // Deffer:
-            setTimeout(function () {
-                return _this.init();
-            }, 0);
+            this.init();
         }
-
-        this.add(uri, callback);
     },
     add: function add(uri, callback) {
         var href = _url2.default.resolve(this.base, uri);

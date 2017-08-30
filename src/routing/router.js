@@ -7,14 +7,12 @@ export default {
     callbacks : {},
 
     when( uri, callback ) {
+        this.add( uri, callback );
+
         if ( !this.crawling ) {
             this.crawling = true;
-
-            // Deffer:
-            setTimeout( () => this.init(), 0 );
+            this.init();
         }
-
-        this.add( uri, callback );
     },
 
     add( uri, callback ) {

@@ -31,7 +31,7 @@ export default {
             interval    : this.opts.interval
         } );
 
-        this.handle( this.base )
+        this.handle( this.base )()
             .then( () => {
                 this.queue.on( "start", () => this.emit( "start" ) );
                 this.queue.on( "stop", () => this.emit( "stop" ) );
@@ -63,7 +63,7 @@ export default {
 
                 if ( extracted ) {
                     this.cache.add( link );
-                    this.queue.add( () => extracted );
+                    this.queue.add( extracted );
                 }
             }
         } );
@@ -78,7 +78,7 @@ export default {
      * @return  {Promise}
      */
     handle( url ) {
-        return new Promise( ( resolve, reject ) => {
+        return () => new Promise( ( resolve, reject ) => {
             this.get( url ).then( ( { req, res } ) => {
                 try {
                     this.check( url, req, res );

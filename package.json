@@ -30,7 +30,7 @@
         "babel-runtime": "^6.26.0"
     },
     "devDependencies": {
-        "mocha": "^3.5.0",
+        "mocha": "^4.0.0",
         "babel": "^6.23.0",
         "babel-cli": "^6.26.0",
         "babel-eslint": "^8.0.0",

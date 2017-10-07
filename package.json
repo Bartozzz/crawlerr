@@ -24,7 +24,7 @@
         "jsdom": "^11.2.0",
         "get-link": "latest",
         "merge-descriptors": "^1.0.1",
-        "queue-promise": "^0.1.2",
+        "queue-promise": "^1.0.0",
         "retry-request": "^3.0.0",
         "type-is": "^1.6.15",
         "wildcard-named": "^1.0.0",

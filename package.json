@@ -26,7 +26,7 @@
         "queue-promise": "^0.1.2",
         "retry-request": "^3.0.0",
         "type-is": "^1.6.15",
-        "wildcard-named": "^0.0.26",
+        "wildcard-named": "^1.0.0",
         "babel-runtime": "^6.26.0"
     },
     "devDependencies": {

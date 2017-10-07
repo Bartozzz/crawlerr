@@ -1,5 +1,7 @@
+// @flow
+
 import mixin from "merge-descriptors";
-import {EventEmitter} from "events";
+import EventEmitter from "events";
 import SpiderQueue from "./queue/promise";
 import SpiderRouter from "./routing/router";
 import SpiderRequest from "./routing/request";
@@ -10,18 +12,18 @@ import SpiderResponse from "./routing/response";
  * @param  {Object}     options
  * @return {Object}
  */
-function createCrawler(base, options = {}) {
+function createCrawler(base: string, options: Object = {}): Object {
     if (typeof base !== "string") {
         throw new Error(`Base must be a string, not ${typeof base}`);
     }
 
-    const config = {
+    const config: Object = {
         interval: 250,
         concurrency: 10,
         ...options,
     };
 
-    const crawler = {
+    const crawler: Object = {
         base: base,
         opts: config,
         req: SpiderRequest,

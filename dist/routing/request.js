@@ -31,7 +31,7 @@ exports.default = {
             throw new TypeError("Name argument is required to req.get");
         }
 
-        if (typeof name !== "string") {
+        if (typeof header !== "string") {
             throw new TypeError("Name must be a string to req.get");
         }
 
@@ -53,7 +53,7 @@ exports.default = {
      * and it contains the give mime `type`.
      *
      * @param   {string|array}      types...
-     * @return  {string|false|null}
+     * @return  {string|false}
      * @access  public
      */
     is: function is() {
@@ -78,8 +78,8 @@ exports.default = {
      */
     param: function param(name, defaultValue) {
         var params = this.params || {};
-        var body = this.body || {};
         var query = this.query || {};
+        var body = this.body || {};
 
         if (null != params[name]) return params[name];
         if (null != query[name]) return query[name];

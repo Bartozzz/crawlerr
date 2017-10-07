@@ -10,6 +10,8 @@ var _mergeDescriptors2 = _interopRequireDefault(_mergeDescriptors);
 
 var _events = require("events");
 
+var _events2 = _interopRequireDefault(_events);
+
 var _promise = require("./queue/promise");
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -55,7 +57,7 @@ function createCrawler(base) {
     // Glues all the components together:
     (0, _mergeDescriptors2.default)(crawler, _promise2.default, false);
     (0, _mergeDescriptors2.default)(crawler, _router2.default, false);
-    (0, _mergeDescriptors2.default)(crawler, _events.EventEmitter.prototype, false);
+    (0, _mergeDescriptors2.default)(crawler, _events2.default.prototype, false);
 
     return crawler;
 }

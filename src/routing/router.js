@@ -1,3 +1,5 @@
+// @flow
+
 import url from "url";
 import request from "retry-request";
 import mixin from "merge-descriptors";
@@ -19,7 +21,7 @@ export default {
      * @return  {Promise}
      * @access  public
      */
-    when(uri) {
+    when(uri: string): Promise<*> {
         return new Promise((resolve) => {
             this.callbacks[url.resolve(this.base, uri)] = resolve;
         });
@@ -32,19 +34,21 @@ export default {
      * @return  {Promise}
      * @access  public
      */
-    get(uri) {
+    get(uri: string): Promise<*> {
+        let link = uri;
+
         if (!uri.startsWith(this.base)) {
-            uri = url.resolve(this.base, uri);
+            link = url.resolve(this.base, uri);
         }
 
         return new Promise((resolve, reject) => {
-            request(uri, (error, response) => {
+            request(link, (error, response) => {
                 if (error || response.statusCode != 200) {
-                    reject(error || uri);
+                    reject(error || link);
                 }
 
-                const req = {};
-                const res = response;
+                const req: Object = {};
+                const res: Object = response;
 
                 // Set circular references:
                 res.req = req;
@@ -54,7 +58,7 @@ export default {
                 req.__proto__ = this.req;
                 res.__proto__ = this.res;
 
-                resolve({req, res, uri});
+                resolve({req, res, link});
             });
         });
     },
@@ -69,14 +73,14 @@ export default {
      * @return  {void}
      * @access  protected
      */
-    check(uri, req, res) {
+    check(uri: string, req: Object, res: Object): void {
         for (const index in this.callbacks) {
             if (!this.callbacks.hasOwnPrototpye(index)) {
                 continue;
             }
 
-            const requested = wildcard(uri, index);
-            const callback = this.callbacks[index];
+            const requested: Object = wildcard(uri, index);
+            const callback: Function = this.callbacks[index];
 
             if (uri === index || requested) {
                 // Merge request parameters with wildcard output:

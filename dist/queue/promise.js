@@ -82,26 +82,22 @@ exports.default = {
      */
     parse: function parse(req, res) {
         var document = res.document;
-        var anchors = document.getElementsByTagName("a");
+        var as = document.getElementsByTagName("a");
 
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
 
         try {
-            for (var _iterator = anchors[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var anchor = _step.value;
+            for (var _iterator = as[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var a = _step.value;
 
-                var href = anchor.getAttribute("href");
+                var href = a.getAttribute("href");
                 var link = (0, _getLink2.default)(this.base, href);
 
                 if (link && !this.cache.test(link)) {
-                    var extracted = this.handle(link);
-
-                    if (extracted) {
-                        this.cache.add(link);
-                        this.queue.add(extracted);
-                    }
+                    this.cache.add(link);
+                    this.queue.add(this.handle(link));
                 }
             }
         } catch (err) {
@@ -127,7 +123,7 @@ exports.default = {
      * - parses its content for new links;
      *
      * @param   {string}    url
-     * @return  {Promise}
+     * @return  {function}
      * @access  protected
      */
     handle: function handle(url) {

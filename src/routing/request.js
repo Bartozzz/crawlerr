@@ -1,3 +1,5 @@
+// @flow
+
 import http from "http";
 import typeis from "type-is";
 
@@ -13,16 +15,16 @@ export default {
      * @return  {string}
      * @access  public
      */
-    get(header) {
+    get(header: string): string {
         if (!header) {
             throw new TypeError("Name argument is required to req.get");
         }
 
-        if (typeof name !== "string") {
+        if (typeof header !== "string") {
             throw new TypeError("Name must be a string to req.get");
         }
 
-        const lower = header.toLowerCase();
+        const lower: string = header.toLowerCase();
 
         switch (lower) {
         case "referer":
@@ -39,10 +41,10 @@ export default {
      * and it contains the give mime `type`.
      *
      * @param   {string|array}      types...
-     * @return  {string|false|null}
+     * @return  {string|false}
      * @access  public
      */
-    is(...types) {
+    is(...types: Array<string>): string|boolean {
         return typeis(this, types);
     },
 
@@ -57,10 +59,10 @@ export default {
      * @return  {string}
      * @access  public
      */
-    param(name, defaultValue) {
-        const params = this.params || {};
-        const body = this.body || {};
-        const query = this.query || {};
+    param(name: string, defaultValue: any): any {
+        const params: Object = this.params || {};
+        const query: Object = this.query || {};
+        const body: Object = this.body || {};
 
         if (null != params[name]) return params[name];
         if (null != query[name]) return query[name];

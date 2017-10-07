@@ -1,3 +1,5 @@
+// @flow
+
 import {BloomFilter} from "bloomfilter";
 import Queue from "queue-promise";
 import getLink from "get-link";
@@ -27,7 +29,7 @@ export default {
      * @return  {void}
      * @access  public
      */
-    start() {
+    start(): void {
         this.queue = new Queue({
             concurrency: this.opts.concurrency,
             interval: this.opts.interval,
@@ -55,21 +57,17 @@ export default {
      * @param   {Response}  res
      * @access  protected
      */
-    parse(req, res) {
-        const document = res.document;
-        const anchors = document.getElementsByTagName("a");
+    parse(req: Object, res: Object): void {
+        const document: Object = res.document;
+        const as: Array<HTMLAnchorElement> = document.getElementsByTagName("a");
 
-        for (const anchor of anchors) {
-            const href = anchor.getAttribute("href");
-            const link = getLink(this.base, href);
+        for (const a of as) {
+            const href: any = a.getAttribute("href");
+            const link: string = getLink(this.base, href);
 
             if (link && !this.cache.test(link)) {
-                const extracted = this.handle(link);
-
-                if (extracted) {
-                    this.cache.add(link);
-                    this.queue.add(extracted);
-                }
+                this.cache.add(link);
+                this.queue.add(this.handle(link));
             }
         }
     },
@@ -80,10 +78,10 @@ export default {
      * - parses its content for new links;
      *
      * @param   {string}    url
-     * @return  {Promise}
+     * @return  {function}
      * @access  protected
      */
-    handle(url) {
+    handle(url: string): () => Promise<*> {
         return () => new Promise((resolve, reject) => {
             this.get(url).then(({req, res}) => {
                 try {

@@ -57,14 +57,16 @@ exports.default = {
     get: function get(uri) {
         var _this2 = this;
 
+        var link = uri;
+
         if (!uri.startsWith(this.base)) {
-            uri = _url2.default.resolve(this.base, uri);
+            link = _url2.default.resolve(this.base, uri);
         }
 
         return new Promise(function (resolve, reject) {
-            (0, _retryRequest2.default)(uri, function (error, response) {
+            (0, _retryRequest2.default)(link, function (error, response) {
                 if (error || response.statusCode != 200) {
-                    reject(error || uri);
+                    reject(error || link);
                 }
 
                 var req = {};
@@ -78,7 +80,7 @@ exports.default = {
                 req.__proto__ = _this2.req;
                 res.__proto__ = _this2.res;
 
-                resolve({ req: req, res: res, uri: uri });
+                resolve({ req: req, res: res, link: link });
             });
         });
     },

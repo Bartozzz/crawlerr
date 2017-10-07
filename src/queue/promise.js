@@ -1,6 +1,6 @@
-import { BloomFilter }  from "bloomfilter";
-import Queue            from "queue-promise";
-import getLink          from "get-link";
+import {BloomFilter} from "bloomfilter";
+import Queue from "queue-promise";
+import getLink from "get-link";
 
 export default {
     /**
@@ -11,7 +11,7 @@ export default {
      * @type    {BloomFilter}
      * @access  protected
      */
-    cache : new BloomFilter( 32 * 64 * 128, 17 ),
+    cache: new BloomFilter(32 * 64 * 128, 17),
 
     /**
      * Queue object.
@@ -19,7 +19,7 @@ export default {
      * @type    {Queue}
      * @access  protected
      */
-    queue : null,
+    queue: null,
 
     /**
      * Creates a new queue and initialises it.
@@ -28,24 +28,24 @@ export default {
      * @access  public
      */
     start() {
-        this.queue = new Queue( {
-            concurrency : this.opts.concurrency,
-            interval    : this.opts.interval
-        } );
+        this.queue = new Queue({
+            concurrency: this.opts.concurrency,
+            interval: this.opts.interval,
+        });
 
-        this.handle( this.base )()
-            .then( () => {
-                this.queue.on( "start", () => this.emit( "start" ) );
-                this.queue.on( "stop", () => this.emit( "stop" ) );
-                this.queue.on( "tick", () => this.emit( "tick" ) );
-                this.queue.on( "resolve", e => this.emit( "request", e ) );
-                this.queue.on( "reject", e => this.emit( "error", e ) );
+        this.handle(this.base)()
+            .then(() => {
+                this.queue.on("start", () => this.emit("start"));
+                this.queue.on("stop", () => this.emit("stop"));
+                this.queue.on("tick", () => this.emit("tick"));
+                this.queue.on("resolve", (e) => this.emit("request", e));
+                this.queue.on("reject", (e) => this.emit("error", e));
 
                 this.queue.start();
-            } )
-            .catch( ( error ) => {
-                this.emit( "error", error );
-            } );
+            })
+            .catch((error) => {
+                this.emit("error", error);
+            });
     },
 
     /**
@@ -55,20 +55,20 @@ export default {
      * @param   {Response}  res
      * @access  protected
      */
-    parse( req, res ) {
+    parse(req, res) {
         const document = res.document;
-        const anchors  = document.getElementsByTagName( "a" );
+        const anchors = document.getElementsByTagName("a");
 
-        for ( const anchor of anchors ) {
-            const href = anchor.getAttribute( "href" );
-            const link = getLink( this.base, href );
+        for (const anchor of anchors) {
+            const href = anchor.getAttribute("href");
+            const link = getLink(this.base, href);
 
-            if ( link && !this.cache.test( link ) ) {
-                const extracted = this.handle( link );
+            if (link && !this.cache.test(link)) {
+                const extracted = this.handle(link);
 
-                if ( extracted ) {
-                    this.cache.add( link );
-                    this.queue.add( extracted );
+                if (extracted) {
+                    this.cache.add(link);
+                    this.queue.add(extracted);
                 }
             }
         }
@@ -83,18 +83,18 @@ export default {
      * @return  {Promise}
      * @access  protected
      */
-    handle( url ) {
-        return () => new Promise( ( resolve, reject ) => {
-            this.get( url ).then( ( { req, res } ) => {
+    handle(url) {
+        return () => new Promise((resolve, reject) => {
+            this.get(url).then(({req, res}) => {
                 try {
-                    this.check( url, req, res );
-                    this.parse( req, res );
-                } catch ( error ) {
-                    reject( error );
+                    this.check(url, req, res);
+                    this.parse(req, res);
+                } catch (error) {
+                    reject(error);
                 }
 
-                resolve( url );
-            } ).catch( reject );
-        } );
-    }
+                resolve(url);
+            }).catch(reject);
+        });
+    },
 };

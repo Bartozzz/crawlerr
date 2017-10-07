@@ -1,36 +1,36 @@
-import http   from "http";
+import http from "http";
 import typeis from "type-is";
 
 export default {
     // Request prototype:
-    __proto__ : http.IncomingMessage.prototype,
+    __proto__: http.IncomingMessage.prototype,
 
     /**
      * Returns request header. The `Referrer` header field is special-cased,
      * both `Referrer` and `Referer` are interchangeable.
      *
-     * @param   {string}    name
+     * @param   {string}    header
      * @return  {string}
      * @access  public
      */
-    get( header ) {
-        if ( !header ) {
-            throw new TypeError( "Name argument is required to req.get" );
+    get(header) {
+        if (!header) {
+            throw new TypeError("Name argument is required to req.get");
         }
 
-        if ( typeof name !== "string" ) {
-            throw new TypeError( "Name must be a string to req.get" );
+        if (typeof name !== "string") {
+            throw new TypeError("Name must be a string to req.get");
         }
 
         const lower = header.toLowerCase();
 
-        switch( lower ) {
-            case "referer":
-            case "referrer":
-                return this.headers.referrer || this.headers.referer;
+        switch (lower) {
+        case "referer":
+        case "referrer":
+            return this.headers.referrer || this.headers.referer;
 
-            default:
-                return this.headers[ lower ];
+        default:
+            return this.headers[lower];
         }
     },
 
@@ -42,8 +42,8 @@ export default {
      * @return  {string|false|null}
      * @access  public
      */
-    is( ...types ) {
-        return typeis( this, types );
+    is(...types) {
+        return typeis(this, types);
     },
 
     /**
@@ -57,15 +57,15 @@ export default {
      * @return  {string}
      * @access  public
      */
-    param( name, defaultValue ) {
+    param(name, defaultValue) {
         const params = this.params || {};
-        const body   = this.body   || {};
-        const query  = this.query  || {};
+        const body = this.body || {};
+        const query = this.query || {};
 
-        if ( null != params[ name ] ) return params[ name ];
-        if ( null != query[ name ] )  return query[ name ];
-        if ( null != body[ name ] )   return body[ name ];
+        if (null != params[name]) return params[name];
+        if (null != query[name]) return query[name];
+        if (null != body[name]) return body[name];
 
         return defaultValue;
-    }
+    },
 };

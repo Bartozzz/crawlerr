@@ -1,8 +1,8 @@
-import { JSDOM } from "jsdom";
+import {JSDOM} from "jsdom";
 
 export default {
     get jsdom() {
-        return new JSDOM( this.body );
+        return new JSDOM(this.body);
     },
 
     get window() {
@@ -11,5 +11,5 @@ export default {
 
     get document() {
         return this.window.document;
-    }
+    },
 };

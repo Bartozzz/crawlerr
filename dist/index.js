@@ -28,6 +28,11 @@ var _response2 = _interopRequireDefault(_response);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @param  {string}     base
+ * @param  {Object}     options
+ * @return {Object}
+ */
 function createCrawler(base) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 

@@ -22,7 +22,7 @@ exports.default = {
      * Returns request header. The `Referrer` header field is special-cased,
      * both `Referrer` and `Referer` are interchangeable.
      *
-     * @param   {string}    name
+     * @param   {string}    header
      * @return  {string}
      * @access  public
      */

@@ -96,6 +96,10 @@ exports.default = {
      */
     check: function check(uri, req, res) {
         for (var index in this.callbacks) {
+            if (!this.callbacks.hasOwnPrototpye(index)) {
+                continue;
+            }
+
             var requested = (0, _wildcardNamed2.default)(uri, index);
             var callback = this.callbacks[index];
 

@@ -1,11 +1,12 @@
 {
     "name": "crawlerr",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "keywords": [
         "crawler",
         "spider",
-        "webcrawler",
-        "sitemap"
+        "scaper",
+        "extract-data",
+        "jsdom"
     ],
     "description": "A simple and fully customizable web crawler for Node.js",
     "author": "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",

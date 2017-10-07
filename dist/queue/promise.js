@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _promise = require("babel-runtime/core-js/promise");
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _getIterator2 = require("babel-runtime/core-js/get-iterator");
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _bloomfilter = require("bloomfilter");
 
 var _queuePromise = require("queue-promise");
@@ -97,7 +89,7 @@ exports.default = {
         var _iteratorError = undefined;
 
         try {
-            for (var _iterator = (0, _getIterator3.default)(anchors), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            for (var _iterator = anchors[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                 var anchor = _step.value;
 
                 var href = anchor.getAttribute("href");
@@ -142,7 +134,7 @@ exports.default = {
         var _this2 = this;
 
         return function () {
-            return new _promise2.default(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 _this2.get(url).then(function (_ref) {
                     var req = _ref.req,
                         res = _ref.res;

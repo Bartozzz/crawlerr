@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _promise = require("babel-runtime/core-js/promise");
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _url = require("url");
 
 var _url2 = _interopRequireDefault(_url);
@@ -45,7 +41,7 @@ exports.default = {
     when: function when(uri) {
         var _this = this;
 
-        return new _promise2.default(function (resolve) {
+        return new Promise(function (resolve) {
             _this.callbacks[_url2.default.resolve(_this.base, uri)] = resolve;
         });
     },
@@ -65,7 +61,7 @@ exports.default = {
             uri = _url2.default.resolve(this.base, uri);
         }
 
-        return new _promise2.default(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             (0, _retryRequest2.default)(uri, function (error, response) {
                 if (error || response.statusCode != 200) {
                     reject(error || uri);

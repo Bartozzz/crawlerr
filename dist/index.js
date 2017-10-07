@@ -1,12 +1,8 @@
 "use strict";
 
-var _extends2 = require("babel-runtime/helpers/extends");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _typeof2 = require("babel-runtime/helpers/typeof");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _mergeDescriptors = require("merge-descriptors");
 
@@ -36,10 +32,10 @@ function createCrawler(base) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     if (typeof base !== "string") {
-        throw new Error("Base must be a string, not " + (typeof base === "undefined" ? "undefined" : (0, _typeof3.default)(base)));
+        throw new Error("Base must be a string, not " + (typeof base === "undefined" ? "undefined" : _typeof(base)));
     }
 
-    var config = (0, _extends3.default)({
+    var config = _extends({
         interval: 250,
         concurrency: 10
     }, options);

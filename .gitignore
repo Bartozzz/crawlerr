@@ -1,3 +1,5 @@
+examples/downloaded
+
 # Node stuff:
 node_modules
 *.log

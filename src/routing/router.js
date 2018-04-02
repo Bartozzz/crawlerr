@@ -4,6 +4,7 @@ import url from "url";
 import request from "retry-request";
 import mixin from "merge-descriptors";
 import wildcard from "wildcard-named";
+import setPrototypeOf from "setprototypeof";
 
 export default {
   /**
@@ -55,8 +56,8 @@ export default {
         req.res = res;
 
         // Alter the prototypes:
-        req.__proto__ = this.req;
-        res.__proto__ = this.res;
+        setPrototypeOf(req, this.req);
+        setPrototypeOf(res, this.res);
 
         resolve({ req, res, link });
       });

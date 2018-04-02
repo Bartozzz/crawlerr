@@ -36,16 +36,14 @@ export default {
    * @access  public
    */
   get(uri: string): Promise<*> {
-    let link = uri;
-
     if (!uri.startsWith(this.base)) {
-      link = url.resolve(this.base, uri);
+      uri = url.resolve(this.base, uri);
     }
 
     return new Promise((resolve, reject) => {
-      request(link, (error, response) => {
+      request(uri, (error, response) => {
         if (error || response.statusCode !== 200) {
-          reject(error || link);
+          reject(error || uri);
         }
 
         const req: Object = {};
@@ -59,7 +57,7 @@ export default {
         setPrototypeOf(req, this.req);
         setPrototypeOf(res, this.res);
 
-        resolve({ req, res, link });
+        resolve({ req, res, uri });
       });
     });
   },

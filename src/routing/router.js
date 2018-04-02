@@ -76,10 +76,6 @@ export default {
    */
   check(uri: string, req: Object, res: Object): void {
     for (const index in this.callbacks) {
-      if (!this.callbacks.hasOwnProperty(index)) {
-        continue;
-      }
-
       const requested: Object = wildcard(uri, index);
       const callback: Function = this.callbacks[index];
 

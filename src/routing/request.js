@@ -13,12 +13,10 @@ export default Object.create(http.IncomingMessage.prototype, {
    * @access  public
    */
   get(header: string): string {
-    if (!header) {
-      throw new TypeError("Name argument is required to req.get");
-    }
-
-    if (typeof header !== "string") {
-      throw new TypeError("Name must be a string to req.get");
+    if (!header || typeof header !== "string") {
+      throw new TypeError(
+        `req.get takes a string as argument, got ${typeof header}`
+      );
     }
 
     const lower: string = header.toLowerCase();
@@ -37,7 +35,7 @@ export default Object.create(http.IncomingMessage.prototype, {
    * Check if the incoming request contains the "Content-Type" header field,
    * and it contains the give mime `type`.
    *
-   * @param   {string|array}      types...
+   * @param   {string|Array}      types...
    * @return  {string|false}
    * @access  public
    */
@@ -52,7 +50,7 @@ export default Object.create(http.IncomingMessage.prototype, {
    * - checks query string params, ex: `?id=12`;
    *
    * @param   {string}    name
-   * @param   {mixed}     defaultValue
+   * @param   {any}       defaultValue
    * @return  {string}
    * @access  public
    */

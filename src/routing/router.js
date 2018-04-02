@@ -43,7 +43,7 @@ export default {
     return new Promise((resolve, reject) => {
       request(uri, (error, response) => {
         if (error || response.statusCode !== 200) {
-          reject(error || uri);
+          return reject(error || uri);
         }
 
         const req: Object = {};

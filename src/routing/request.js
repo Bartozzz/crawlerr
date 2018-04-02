@@ -3,10 +3,7 @@
 import http from "http";
 import typeis from "type-is";
 
-export default {
-  // Request prototype:
-  __proto__: http.IncomingMessage.prototype,
-
+export default Object.create(http.IncomingMessage.prototype, {
   /**
    * Returns request header. The `Referrer` header field is special-cased,
    * both `Referrer` and `Referer` are interchangeable.
@@ -70,4 +67,4 @@ export default {
 
     return defaultValue;
   }
-};
+});

@@ -44,7 +44,7 @@ export default {
 
     return new Promise((resolve, reject) => {
       request(link, (error, response) => {
-        if (error || response.statusCode != 200) {
+        if (error || response.statusCode !== 200) {
           reject(error || link);
         }
 

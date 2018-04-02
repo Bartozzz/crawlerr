@@ -13,29 +13,29 @@ import SpiderResponse from "./routing/response";
  * @return {Object}
  */
 function createCrawler(base: string, options: Object = {}): Object {
-    if (typeof base !== "string") {
-        throw new Error(`Base must be a string, not ${typeof base}`);
-    }
+  if (typeof base !== "string") {
+    throw new Error(`Base must be a string, not ${typeof base}`);
+  }
 
-    const config: Object = {
-        interval: 250,
-        concurrency: 10,
-        ...options,
-    };
+  const config: Object = {
+    interval: 250,
+    concurrency: 10,
+    ...options
+  };
 
-    const crawler: Object = {
-        base: base,
-        opts: config,
-        req: SpiderRequest,
-        res: SpiderResponse,
-    };
+  const crawler: Object = {
+    base: base,
+    opts: config,
+    req: SpiderRequest,
+    res: SpiderResponse
+  };
 
-    // Glues all the components together:
-    mixin(crawler, SpiderQueue, false);
-    mixin(crawler, SpiderRouter, false);
-    mixin(crawler, EventEmitter.prototype, false);
+  // Glues all the components together:
+  mixin(crawler, SpiderQueue, false);
+  mixin(crawler, SpiderRouter, false);
+  mixin(crawler, EventEmitter.prototype, false);
 
-    return crawler;
+  return crawler;
 }
 
 module.exports = createCrawler;

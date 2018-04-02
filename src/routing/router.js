@@ -6,88 +6,88 @@ import mixin from "merge-descriptors";
 import wildcard from "wildcard-named";
 
 export default {
-    /**
-     * Registered callbacks.
-     *
-     * @type    {object}
-     * @access  protected
-     */
-    callbacks: {},
+  /**
+   * Registered callbacks.
+   *
+   * @type    {object}
+   * @access  protected
+   */
+  callbacks: {},
 
-    /**
-     * Add a handler for a specific uri. Accepts wildcards.
-     *
-     * @param   {string}    uri
-     * @return  {Promise}
-     * @access  public
-     */
-    when(uri: string): Promise<*> {
-        return new Promise((resolve) => {
-            this.callbacks[url.resolve(this.base, uri)] = resolve;
-        });
-    },
+  /**
+   * Add a handler for a specific uri. Accepts wildcards.
+   *
+   * @param   {string}    uri
+   * @return  {Promise}
+   * @access  public
+   */
+  when(uri: string): Promise<*> {
+    return new Promise(resolve => {
+      this.callbacks[url.resolve(this.base, uri)] = resolve;
+    });
+  },
 
-    /**
-     * Requests a single uri.
-     *
-     * @param   {string}    uri
-     * @return  {Promise}
-     * @access  public
-     */
-    get(uri: string): Promise<*> {
-        let link = uri;
+  /**
+   * Requests a single uri.
+   *
+   * @param   {string}    uri
+   * @return  {Promise}
+   * @access  public
+   */
+  get(uri: string): Promise<*> {
+    let link = uri;
 
-        if (!uri.startsWith(this.base)) {
-            link = url.resolve(this.base, uri);
+    if (!uri.startsWith(this.base)) {
+      link = url.resolve(this.base, uri);
+    }
+
+    return new Promise((resolve, reject) => {
+      request(link, (error, response) => {
+        if (error || response.statusCode != 200) {
+          reject(error || link);
         }
 
-        return new Promise((resolve, reject) => {
-            request(link, (error, response) => {
-                if (error || response.statusCode != 200) {
-                    reject(error || link);
-                }
+        const req: Object = {};
+        const res: Object = response;
 
-                const req: Object = {};
-                const res: Object = response;
+        // Set circular references:
+        res.req = req;
+        req.res = res;
 
-                // Set circular references:
-                res.req = req;
-                req.res = res;
+        // Alter the prototypes:
+        req.__proto__ = this.req;
+        res.__proto__ = this.res;
 
-                // Alter the prototypes:
-                req.__proto__ = this.req;
-                res.__proto__ = this.res;
+        resolve({ req, res, link });
+      });
+    });
+  },
 
-                resolve({req, res, link});
-            });
-        });
-    },
+  /**
+   * Checks whenever an uri matches the registered callbacks and eventually
+   * executes the callback.
+   *
+   * @param   {string}    uri
+   * @param   {Request}   req
+   * @param   {Response}  res
+   * @return  {void}
+   * @access  protected
+   */
+  check(uri: string, req: Object, res: Object): void {
+    for (const index in this.callbacks) {
+      if (!this.callbacks.hasOwnPrototpye(index)) {
+        continue;
+      }
 
-    /**
-     * Checks whenever an uri matches the registered callbacks and eventually
-     * executes the callback.
-     *
-     * @param   {string}    uri
-     * @param   {Request}   req
-     * @param   {Response}  res
-     * @return  {void}
-     * @access  protected
-     */
-    check(uri: string, req: Object, res: Object): void {
-        for (const index in this.callbacks) {
-            if (!this.callbacks.hasOwnPrototpye(index)) {
-                continue;
-            }
+      const requested: Object = wildcard(uri, index);
+      const callback: Function = this.callbacks[index];
 
-            const requested: Object = wildcard(uri, index);
-            const callback: Function = this.callbacks[index];
+      if (uri === index || requested) {
+        // Merge request parameters with wildcard output:
+        mixin(req.params, requested || {});
 
-            if (uri === index || requested) {
-                // Merge request parameters with wildcard output:
-                mixin(req.params, requested || {});
-
-                callback({req, res, uri});
-            }
-        }
-    },
+        callback({ req, res, uri });
+      }
+    }
+  }
 };

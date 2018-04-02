@@ -1,15 +1,10 @@
 {
   "name": "crawlerr",
   "version": "1.2.0",
-  "keywords": [
-    "crawler",
-    "spider",
-    "scaper",
-    "extract-data",
-    "jsdom"
-  ],
-  "description": "A simple and fully customizable web crawler for Node.js",
-  "author": "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
+  "keywords": ["crawler", "spider", "scaper", "jsdom", "nodejs"],
+  "description": "A simple and customizable web crawler/spider for Node.js",
+  "author":
+    "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
   "license": "MIT",
   "main": "dist/index.js",
   "repository": {
@@ -20,16 +15,15 @@
     "url": "https://github.com/Bartozzz/crawlerr/issues"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
     "bloomfilter": "^0.0.16",
     "get-link": "latest",
-    "jsdom": "^11.2.0",
+    "jsdom": "^11.7.0",
     "merge-descriptors": "^1.0.1",
-    "queue-promise": "^1.0.0",
-    "retry-request": "^3.0.0",
+    "queue-promise": "^1.1.0",
+    "retry-request": "^3.3.1",
     "setprototypeof": "^1.1.0",
-    "type-is": "^1.6.15",
-    "wildcard-named": "^1.0.0"
+    "type-is": "^1.6.16",
+    "wildcard-named": "^1.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -50,7 +44,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1",
-    "flow-bin": "^0.67.1",
+    "flow-bin": "^0.69.0",
     "mocha": "^5.0.5",
     "prettier": "^1.11.1"
   },
@@ -60,6 +54,7 @@
     "build": "babel src -d dist",
     "watch": "babel src -d dist -w",
     "eslint": "node_modules/.bin/eslint --fix src",
-    "prepare": "npm run clean && npm run eslint && npm run flow && npm run build"
+    "prepare":
+      "npm run clean && npm run eslint && npm run flow && npm run build"
   }
 }

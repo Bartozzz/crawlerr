@@ -51,6 +51,18 @@ export default {
   },
 
   /**
+   * Stops the queue if it is running.
+   *
+   * @return  {void}
+   * @access  public
+   */
+  stop(): void {
+    if (this.queue) {
+      this.queue.stop();
+    }
+  },
+
+  /**
    * Searches for new links from response and adds those to the queue.
    *
    * @param   {Request}   req

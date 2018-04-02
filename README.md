@@ -8,7 +8,7 @@
 [![npm downloads](https://img.shields.io/npm/dt/crawlerr.svg)](https://www.npmjs.com/package/crawlerr)
   <br>
 
-**crawlerr** is simple and fully customizable web crawler for Node.js, based on Promises. It provides core features such as *server-side DOM* (JSDOM), *configurable pool size* and retries, *rate limit*. This tool also allows you to crawl specific urls only based on *wildcards*. It uses *Bloom filter* for caching.
+**crawlerr** is simple and fully customizable web crawler for Node.js, based on Promises. It provides core features such as _server-side DOM_ (JSDOM), _configurable pool size_, _retries_ and _rate limit_. This tool also allows you to crawl specific urls only based on _wildcards_. It uses _Bloom filter_ for caching.
 </div>
 
 <h2 align="center">Installation</h2>
@@ -23,18 +23,14 @@ $ npm install crawlerr
 
 You can find several examples in the `examples/` folder. There are the some of the most important ones:
 
-### *Example 1: Requesting a title from url*
+### *Example 1: Requesting title from a page*
 
 ```javascript
 const spider = crawlerr("http://google.com/");
 
 spider.get("/")
-    .then(({ req, res, uri }) => {
-        console.log(res.document.title);
-    } )
-    .catch(error => {
-        console.log(error);
-    });
+  .then(({ req, res, uri }) => console.log(res.document.title))
+  .catch(error => console.log(error));
 ```
 
 ### *Example 2: Scanning a website for specific links*
@@ -43,25 +39,25 @@ spider.get("/")
 const spider = crawlerr("http://blog.npmjs.org/");
 
 spider.when("/post/[digit:id]/[all:slug]").then(({ req, res, uri }) => {
-    const id = req.param("id");
-    const slug = req.param("slug").split("?")[0];
+  const id = req.param("id");
+  const slug = req.param("slug").split("?")[0];
 
-    console.log(`Found post with id: ${id} (${slug})`);
+  console.log(`Found post with id: ${id} (${slug})`);
 });
 
 spider.start();
 ```
 
-### *Example 3: Get html content by id*
+### *Example 3: Server side DOM*
 
 ```javascript
 const spider = crawlerr("http://example.com/");
 
 spider.get("/").then(({ req, res, uri }) => {
-    const document = res.document;
-    const element = document.getElementById("someElement");
+  const document = res.document;
+  const element = document.getElementById("someElement");
 
-    console.log(element.innerHTML);
+  console.log(element.innerHTML);
 });
 ```
 
@@ -73,7 +69,7 @@ Creates a new `Crawlerr` instance for `base` website with custom `options`:
 
 | Option      | Default | Description                                    |
 |:------------|:--------|:-----------------------------------------------|
-| concurrency | 10      | How many request can be send at the same time  |
+| concurrent  | 10      | How many request can be send at the same time  |
 | interval    | 250     | How often should new request be send (in ms)   |
 
 #### **public** `.get(url)`
@@ -128,3 +124,9 @@ Returns the DOM window for response content. Based on [JSDOM](https://www.npmjs.
 #### **public** `document`
 
 Returns the DOM document for response content. Based on [JSDOM](https://www.npmjs.com/package/jsdom).
+
+## Tests
+
+```bash
+npm test
+```

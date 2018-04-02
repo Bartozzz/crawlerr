@@ -1,27 +1,27 @@
 const crawler = require("../dist");
 const spider = crawler("http://blog.npmjs.org/");
 
-spider.when("/post/[digit:id]/[all:slug]").then(({req, res, uri}) => {
-    const id = req.param("id");
-    const slug = req.param("slug").split("?")[0];
+spider.when("/post/[digit:id]/[all:slug]").then(({ req, res, uri }) => {
+  const id = req.param("id");
+  const slug = req.param("slug").split("?")[0];
 
-    console.log(`[Info] Saving post with id: ${id} (${slug})`);
+  console.log(`[Info] Saving post with id: ${id} (${slug})`);
 });
 
 spider.on("start", () => {
-    console.log("Start event");
+  console.log("Start event");
 });
 
 spider.on("end", () => {
-    console.log("End event");
+  console.log("End event");
 });
 
-spider.on("error", (error) => {
-    console.log(`[Error] ${error}`);
+spider.on("error", error => {
+  console.log(`[Error] ${error}`);
 });
 
-spider.on("request", (url) => {
-    console.log(`[Success] ${url}`);
+spider.on("request", url => {
+  console.log(`[Success] ${url}`);
 });
 
 spider.start();

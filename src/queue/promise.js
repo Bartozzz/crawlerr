@@ -2,7 +2,6 @@
 
 import { BloomFilter } from "bloomfilter";
 import Queue from "queue-promise";
-import getLink from "get-link";
 
 export default {
   /**
@@ -53,30 +52,8 @@ export default {
    * @access  public
    */
   stop(): void {
-    if (this.queue) {
+    if (this.queue && this.queue.started) {
       this.queue.stop();
-    }
-  },
-
-  /**
-   * Searches for new links from response and adds those to the queue.
-   *
-   * @param   {Request}   req
-   * @param   {Response}  res
-   * @access  protected
-   */
-  parse(req: Object, res: Object): void {
-    const document: Object = res.document;
-    const as: Array<HTMLAnchorElement> = document.getElementsByTagName("a");
-
-    for (const a of as) {
-      const href: any = a.getAttribute("href");
-      const link: string = getLink(this.base, href);
-
-      if (link && !this.cache.test(link)) {
-        this.cache.add(link);
-        this.queue.add(this.handle(link));
-      }
     }
   },
 
@@ -95,8 +72,8 @@ export default {
         this.get(url)
           .then(({ req, res }) => {
             try {
-              this.check(url, req, res);
-              this.parse(req, res);
+              this.callActions(url, req, res);
+              this.parseAnchors(req, res);
             } catch (error) {
               reject(error);
             }

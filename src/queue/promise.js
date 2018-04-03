@@ -24,30 +24,26 @@ export default {
   queue: null,
 
   /**
-   * Creates a new queue and initialises it.
+   * Creates a new queue and initialises it. Re-emits queue events in crawler.
    *
    * @return  {void}
    * @access  public
    */
   start(): void {
     this.queue = new Queue({
-      concurrency: this.opts.concurrency,
+      concurrent: this.opts.concurrent,
       interval: this.opts.interval
     });
 
-    this.handle(this.base)()
-      .then(() => {
-        this.queue.on("start", () => this.emit("start"));
-        this.queue.on("stop", () => this.emit("stop"));
-        this.queue.on("tick", () => this.emit("tick"));
-        this.queue.on("resolve", e => this.emit("request", e));
-        this.queue.on("reject", e => this.emit("error", e));
+    this.queue.on("start", () => this.emit("start"));
+    this.queue.on("stop", () => this.emit("stop"));
+    this.queue.on("resolve", e => this.emit("request", e));
+    this.queue.on("reject", e => this.emit("error", e));
+    this.queue.start();
 
-        this.queue.start();
-      })
-      .catch(error => {
-        this.emit("error", error);
-      });
+    this.handle(this.base)().catch(error => {
+      this.emit("error", error);
+    });
   },
 
   /**

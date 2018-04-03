@@ -79,7 +79,7 @@ export default {
 
       if (uri === index || requested) {
         // Merge request parameters with wildcard output:
-        mixin(req.params, requested || {});
+        mixin(req.params || {}, requested || {});
 
         callback({ req, res, uri });
       }

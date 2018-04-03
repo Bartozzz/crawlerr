@@ -19,7 +19,7 @@ function createCrawler(base: string, options: Object = {}): Object {
 
   const config: Object = {
     interval: 250,
-    concurrency: 10,
+    concurrent: 10,
     ...options
   };
 

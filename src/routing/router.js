@@ -24,8 +24,10 @@ export default {
    * @access  public
    */
   when(uri: string): Promise<*> {
+    uri = this.normalizeUri(uri);
+
     return new Promise(resolve => {
-      this.callbacks[url.resolve(this.base, uri)] = resolve;
+      this.callbacks[uri] = resolve;
     });
   },
 
@@ -37,9 +39,7 @@ export default {
    * @access  public
    */
   get(uri: string): Promise<*> {
-    if (!uri.startsWith(this.base)) {
-      uri = url.resolve(this.base, uri);
-    }
+    uri = this.normalizeUri(uri);
 
     return new Promise((resolve, reject) => {
       request(uri, (error, response) => {
@@ -61,6 +61,27 @@ export default {
         resolve({ req, res, uri });
       });
     });
+  },
+
+  /**
+   * Resolves a relative URI with base path.
+   *
+   * @example
+   *  normalizeUri("/")         // http://example.com/
+   *  normalizeUri("/foo")      // http://example.com/foo
+   *  normalizeUri("/bar.php")  // http://example.com/bar.php
+   *
+   * @param   {string}  uri
+   * @return  {string}
+   * @param   {Response}  res
+   * @access  protected
+   */
+  normalizeUri(uri: string): string {
+    if (!uri.startsWith(this.base)) {
+      uri = url.resolve(this.base, uri);
+    }
+
+    return uri;
   },
 
   /**

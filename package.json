@@ -1,14 +1,14 @@
 {
   "name": "crawlerr",
-  "version": "1.2.0",
+  "version": "1.3.1",
   "keywords": [
     "crawler",
     "spider",
-    "scaper",
+    "scraper",
     "jsdom",
     "nodejs"
   ],
-  "description": "A simple and customizable web crawler/spider for Node.js",
+  "description": "A simple yet powerful web crawler/spider for Node.js",
   "author": "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
   "license": "MIT",
   "main": "dist/index.js",

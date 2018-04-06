@@ -31,7 +31,8 @@ export default {
   start(): void {
     this.queue = new Queue({
       concurrent: this.opts.concurrent,
-      interval: this.opts.interval
+      interval: this.opts.interval,
+      start: false
     });
 
     this.queue.on("start", () => this.emit("start"));

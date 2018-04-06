@@ -33,7 +33,7 @@ function createCrawler(base: string, options: Object = {}): Object {
   // Glues all the components together:
   mixin(crawler, SpiderQueue, false);
   mixin(crawler, SpiderRouter, false);
-  mixin(crawler, EventEmitter.prototype, false);
+  mixin(crawler, EventEmitter.prototype);
 
   return crawler;
 }

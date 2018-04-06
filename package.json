@@ -1,56 +1,66 @@
 {
-    "name": "crawlerr",
-    "version": "1.2.0",
-    "keywords": [
-        "crawler",
-        "spider",
-        "scaper",
-        "extract-data",
-        "jsdom"
-    ],
-    "description": "A simple and fully customizable web crawler for Node.js",
-    "author": "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
-    "license": "MIT",
-    "main": "dist/index.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Bartozzz/crawlerr.git"
-    },
-    "bugs": {
-        "url": "https://github.com/Bartozzz/crawlerr/issues"
-    },
-    "dependencies": {
-        "bloomfilter": "^0.0.16",
-        "jsdom": "^11.2.0",
-        "get-link": "latest",
-        "merge-descriptors": "^1.0.1",
-        "queue-promise": "^1.0.0",
-        "retry-request": "^3.0.0",
-        "type-is": "^1.6.15",
-        "wildcard-named": "^1.0.0",
-        "babel-runtime": "^6.26.0"
-    },
-    "devDependencies": {
-        "flow-bin": "^0.69.0",
-        "mocha": "^5.0.0",
-        "babel": "^6.23.0",
-        "babel-cli": "^6.26.0",
-        "babel-eslint": "^8.0.0",
-        "babel-preset-flow": "^6.23.0",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-plugin-add-module-exports": "^0.2.1",
-        "babel-plugin-transform-object-rest-spread": "^6.26.0",
-        "eslint": "^4.8.0",
-        "eslint-config-google": "^0.9.1",
-        "eslint-plugin-flowtype": "^2.35.0",
-        "eslint-plugin-import": "^2.7.0"
-    },
-    "scripts": {
-        "flow": "flow",
-        "clean": "rm -rf dist",
-        "build": "babel src -d dist",
-        "watch": "babel src -d dist -w",
-        "eslint": "node_modules/.bin/eslint --fix src",
-        "prepare": "npm run clean && npm run eslint && npm run flow && npm run build"
-    }
+  "name": "crawlerr",
+  "version": "1.3.1",
+  "keywords": [
+    "crawler",
+    "spider",
+    "scraper",
+    "jsdom",
+    "nodejs"
+  ],
+  "description": "A simple yet powerful web crawler/spider for Node.js",
+  "author": "Łaniewski Bartosz <laniewski.bartozzz@gmail.com> (http://laniewski.me/)",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bartozzz/crawlerr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bartozzz/crawlerr/issues"
+  },
+  "dependencies": {
+    "bloomfilter": "^0.0.16",
+    "get-link": "^1.0.3",
+    "jsdom": "^11.7.0",
+    "merge-descriptors": "^1.0.1",
+    "queue-promise": "^1.2.1",
+    "retry-request": "^3.3.1",
+    "setprototypeof": "^1.1.0",
+    "type-is": "^1.6.16",
+    "wildcard-named": "^1.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.69.0",
+    "mocha": "^5.0.5",
+    "prettier": "^1.11.1"
+  },
+  "scripts": {
+    "test": "npm run test:eslint && npm run test:flow && npm run test:mocha",
+    "test:flow": "flow",
+    "test:mocha": "mocha --require babel-core/register",
+    "test:eslint": "eslint --fix src",
+    "clean": "rm -rf dist",
+    "build": "babel src -d dist",
+    "watch": "babel src -d dist -w",
+    "prepare": "npm run clean && npm run test && npm run build"
+  }
 }

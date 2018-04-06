@@ -36,30 +36,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Object}
  */
 function createCrawler(base) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    if (typeof base !== "string") {
-        throw new Error("Base must be a string, not " + (typeof base === "undefined" ? "undefined" : _typeof(base)));
-    }
+  if (typeof base !== "string") {
+    throw new Error("Base must be a string, not " + (typeof base === "undefined" ? "undefined" : _typeof(base)));
+  }
 
-    var config = _extends({
-        interval: 250,
-        concurrency: 10
-    }, options);
+  var config = _extends({
+    interval: 250,
+    concurrent: 10
+  }, options);
 
-    var crawler = {
-        base: base,
-        opts: config,
-        req: _request2.default,
-        res: _response2.default
-    };
+  var crawler = {
+    base: base,
+    opts: config,
+    req: _request2.default,
+    res: _response2.default
+  };
 
-    // Glues all the components together:
-    (0, _mergeDescriptors2.default)(crawler, _promise2.default, false);
-    (0, _mergeDescriptors2.default)(crawler, _router2.default, false);
-    (0, _mergeDescriptors2.default)(crawler, _events2.default.prototype, false);
+  // Glues all the components together:
+  (0, _mergeDescriptors2.default)(crawler, _promise2.default, false);
+  (0, _mergeDescriptors2.default)(crawler, _router2.default, false);
+  (0, _mergeDescriptors2.default)(crawler, _events2.default.prototype);
 
-    return crawler;
+  return crawler;
 }
 
 module.exports = createCrawler;

@@ -5,30 +5,33 @@ const Stream = require("stream").Transform;
 const crawler = require("../dist");
 const spider = crawler("https://placekitten.com/");
 
-spider.get("/")
-    .then(({req, res, uri}) => {
-        const document = res.document;
-        const images = document.getElementsByTagName("img");
+spider
+  .get("/")
+  .then(({ req, res, uri }) => {
+    const document = res.document;
+    const images = document.getElementsByTagName("img");
 
-        for (const image of images) {
-            console.log(`Downloading ${image.src} from ${uri}`);
+    for (const image of images) {
+      console.log(`Downloading ${image.src} from ${uri}`);
 
-            http.request(image.src, (response) => {
-                const data = new Stream();
-                const file = `${+new Date}.jpg`;
-                const src = path.resolve(__dirname, "./downloaded/", file);
+      http
+        .request(image.src, response => {
+          const data = new Stream();
+          const file = `${+new Date()}.jpg`;
+          const src = path.resolve(__dirname, "./downloaded/", file);
 
-                response.on("data", (chunk) => {
-                    data.push(chunk);
-                });
+          response.on("data", chunk => {
+            data.push(chunk);
+          });
 
-                response.on("end", () => {
-                    console.log(`Saved as ${file} (${src})`);
-                    fs.writeFileSync(src, data.read());
-                });
-            }).end();
-        }
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+          response.on("end", () => {
+            console.log(`Saved as ${file} (${src})`);
+            fs.writeFileSync(src, data.read());
+          });
+        })
+        .end();
+    }
+  })
+  .catch(error => {
+    console.log(error);
+  });

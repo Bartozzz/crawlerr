@@ -20,7 +20,7 @@
     "url": "https://github.com/Bartozzz/crawlerr/issues"
   },
   "dependencies": {
-    "bloomfilter": "^0.0.16",
+    "bloomfilter": "^0.0.17",
     "get-link": "^1.0.3",
     "jsdom": "^11.7.0",
     "merge-descriptors": "^1.0.1",

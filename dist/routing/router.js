@@ -70,7 +70,7 @@ exports.default = {
     uri = this.normalizeUri(uri);
 
     return new Promise(function (resolve, reject) {
-      (0, _retryRequest2.default)(uri, function (error, response) {
+      (0, _retryRequest2.default)(uri, { request: _this2.request }, function (error, response) {
         if (error || response.statusCode !== 200) {
           return reject(error || uri);
         }

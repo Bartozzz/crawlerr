@@ -68,6 +68,21 @@ spider.get("/").then(({ req, res, uri }) => {
 });
 ```
 
+### Example 4: _Setting cookies_
+
+```javascript
+const url = "http://example.com/";
+const spider = crawlerr(url);
+
+spider.request.setCookie(spider.request.cookie("foobar=…"), url);
+spider.request.setCookie(spider.request.cookie("session=…"), url);
+
+spider.get("/profile").then(({ req, res, uri }) => {
+  //… spider.request.getCookieString(url);
+  //… spider.request.setCookies(url);
+});
+```
+
 ## API
 
 ### `crawlerr(base [, options])`
@@ -76,14 +91,18 @@ Creates a new `Crawlerr` instance for a specific website with custom `options`. 
 
 | Option       | Default | Description                                    |
 |:-------------|:--------|:-----------------------------------------------|
-| `concurrent` | `10`    | How many request can be send at the same time  |
+| `concurrent` | `10`    | How many request can be run simultaneously     |
 | `interval`   | `250`   | How often should new request be send (in ms)   |
+| …            | `null`  | See [`request` defaults](https://github.com/request/request#requestdefaultsoptions) for more informations   |
 
 <br />
 
 #### **public** `.get(url)`
 
-Requests `url`. Returns a `Promise` with `{ req, res, uri }` as response, where `req` is the [Request object](#request), `res` is the [Response object](#response) and `uri` is the absolute `url` (resolved from `base`).
+Requests `url`. Returns a `Promise` which resolves with `{ req, res, uri }`, where:
+- `req` is the [Request object](#request);
+- `res` is the [Response object](#response);
+- `uri` is the absolute `url` (resolved from `base`).
 
 **Example:**
 
@@ -95,9 +114,9 @@ spider
 
 <br />
 
-#### **public** `.when(url)`
+#### **public** `.when(pattern)`
 
-Searches on the entire website (not just a single page) urls matching the `url` pattern. `url` can include named [wildcards](https://github.com/Bartozzz/wildcard-named) which can be then retrieved in the response with `res.param`.
+Searches the entire website for urls which match the specified `pattern`. `pattern` can include named [wildcards](https://github.com/Bartozzz/wildcard-named) which can be then retrieved in the response via `res.param`.
 
 **Example:**
 
@@ -117,13 +136,12 @@ Executes a `callback` for a given `event`. For more informations about which eve
 
 ```javascript
 spider.on("error", …);
-spider.on("reject", …);
 spider.on("resolve", …);
 ```
 
 <br />
 
-#### **public** `start()`/`stop()`
+#### **public** `.start()`/`.stop()`
 
 Starts/stops the crawler.
 
@@ -134,11 +152,33 @@ spider.start();
 spider.stop();
 ```
 
+<br />
+
+#### **public** `.request`
+
+A configured [`request`](https://github.com/request/request) object which is used by [`retry-request`](https://github.com/stephenplusplus/retry-request) when crawling webpages. Extends from `request.jar()`. Can be configured when initializing a new crawler instance through `options`. See [crawler options](https://github.com/Bartozzz/crawlerr#crawlerrbase--options) and [`request` documentation](https://github.com/request/request) for more informations.
+
+**Example:**
+
+```javascript
+const url = "https://example.com";
+const spider = crawlerr(url);
+const request = spider.request;
+
+request.post(`${url}/login`, (err, res, body) => {
+  request.setCookie(request.cookie("session=…"), url);
+  // Next requests will include this cookie
+
+  spider.get("/profile").then(…);
+  spider.get("/settings").then(…);
+});
+```
+
 ---
 
 ### Request
 
-<sub>Extends the default `Node.js` [incoming message](https://nodejs.org/api/http.html#http_class_http_incomingmessage).</sub>
+<sup>Extends the default `Node.js` [incoming message](https://nodejs.org/api/http.html#http_class_http_incomingmessage).</sup>
 
 #### **public** `get(header)`
 

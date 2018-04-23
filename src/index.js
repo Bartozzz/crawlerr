@@ -1,7 +1,9 @@
 // @flow
 
 import mixin from "merge-descriptors";
+import request from "request";
 import EventEmitter from "events";
+import setPrototypeOf from "setprototypeof";
 import SpiderQueue from "./queue/promise";
 import SpiderRouter from "./routing/router";
 import SpiderRequest from "./routing/request";
@@ -23,11 +25,18 @@ function createCrawler(base: string, options: Object = {}): Object {
     ...options
   };
 
+  // Will be used by retry-request:
+  const requestJar = request.jar();
+  const requestObj = request.defaults({ jar: requestJar, ...config });
+  setPrototypeOf(requestObj, requestJar);
+
+  // Crawler base:
   const crawler: Object = {
     base: base,
     opts: config,
     req: SpiderRequest,
-    res: SpiderResponse
+    res: SpiderResponse,
+    request: requestObj
   };
 
   // Glues all the components together:

@@ -1,7 +1,7 @@
 // @flow
 
 import url from "url";
-import request from "retry-request";
+import retryRequest from "retry-request";
 import mixin from "merge-descriptors";
 import getLink from "get-link";
 import wildcard from "wildcard-named";
@@ -42,7 +42,7 @@ export default {
     uri = this.normalizeUri(uri);
 
     return new Promise((resolve, reject) => {
-      request(uri, (error, response) => {
+      retryRequest(uri, { request: this.request }, (error, response) => {
         if (error || response.statusCode !== 200) {
           return reject(error || uri);
         }

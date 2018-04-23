@@ -8,9 +8,17 @@ var _mergeDescriptors = require("merge-descriptors");
 
 var _mergeDescriptors2 = _interopRequireDefault(_mergeDescriptors);
 
+var _request = require("request");
+
+var _request2 = _interopRequireDefault(_request);
+
 var _events = require("events");
 
 var _events2 = _interopRequireDefault(_events);
+
+var _setprototypeof = require("setprototypeof");
+
+var _setprototypeof2 = _interopRequireDefault(_setprototypeof);
 
 var _promise = require("./queue/promise");
 
@@ -20,9 +28,9 @@ var _router = require("./routing/router");
 
 var _router2 = _interopRequireDefault(_router);
 
-var _request = require("./routing/request");
+var _request3 = require("./routing/request");
 
-var _request2 = _interopRequireDefault(_request);
+var _request4 = _interopRequireDefault(_request3);
 
 var _response = require("./routing/response");
 
@@ -47,11 +55,18 @@ function createCrawler(base) {
     concurrent: 10
   }, options);
 
+  // Will be used by retry-request:
+  var requestJar = _request2.default.jar();
+  var requestObj = _request2.default.defaults(_extends({ jar: requestJar }, config));
+  (0, _setprototypeof2.default)(requestObj, requestJar);
+
+  // Crawler base:
   var crawler = {
     base: base,
     opts: config,
-    req: _request2.default,
-    res: _response2.default
+    req: _request4.default,
+    res: _response2.default,
+    request: requestObj
   };
 
   // Glues all the components together:
@@ -63,5 +78,5 @@ function createCrawler(base) {
 }
 
 module.exports = createCrawler;
-module.exports.request = _request2.default;
+module.exports.request = _request4.default;
 module.exports.response = _response2.default;

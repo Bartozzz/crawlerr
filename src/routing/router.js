@@ -7,6 +7,11 @@ import getLink from "get-link";
 import wildcard from "wildcard-named";
 import setPrototypeOf from "setprototypeof";
 
+const defaultOptions = {
+  noResponseRetries: 0,
+  retries: 1
+};
+
 export default {
   /**
    * Registered callbacks.
@@ -35,14 +40,16 @@ export default {
    * Requests a single uri.
    *
    * @param   {string}    uri
+   * @param   {Object}    opts
    * @return  {Promise}
    * @access  public
    */
-  get(uri: string): Promise<*> {
+  get(uri: string, opts: Object = defaultOptions): Promise<*> {
     uri = this.normalizeUri(uri);
+    opts = { ...opts, request: this.request };
 
     return new Promise((resolve, reject) => {
-      retryRequest(uri, { request: this.request }, (error, response) => {
+      retryRequest(uri, opts, (error, response) => {
         if (error || response.statusCode !== 200) {
           return reject(error || uri);
         }

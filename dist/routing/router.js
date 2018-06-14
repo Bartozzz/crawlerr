@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _url = require("url");
 
 var _url2 = _interopRequireDefault(_url);
@@ -29,6 +31,11 @@ var _setprototypeof = require("setprototypeof");
 var _setprototypeof2 = _interopRequireDefault(_setprototypeof);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultOptions = {
+  noResponseRetries: 0,
+  retries: 1
+};
 
 exports.default = {
   /**
@@ -61,16 +68,20 @@ exports.default = {
    * Requests a single uri.
    *
    * @param   {string}    uri
+   * @param   {Object}    opts
    * @return  {Promise}
    * @access  public
    */
   get: function get(uri) {
     var _this2 = this;
 
+    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
+
     uri = this.normalizeUri(uri);
+    opts = _extends({}, opts, { request: this.request });
 
     return new Promise(function (resolve, reject) {
-      (0, _retryRequest2.default)(uri, { request: _this2.request }, function (error, response) {
+      (0, _retryRequest2.default)(uri, opts, function (error, response) {
         if (error || response.statusCode !== 200) {
           return reject(error || uri);
         }

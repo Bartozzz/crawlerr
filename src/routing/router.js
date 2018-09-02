@@ -25,7 +25,7 @@ export default {
    * Add a handler for a specific uri. Accepts wildcards.
    *
    * @param   {string}    uri
-   * @param   {Function}  Callback function
+   * @param   {Function}  callback
    * @return  {Promise}
    * @access  public
    */

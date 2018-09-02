@@ -25,14 +25,15 @@ export default {
    * Add a handler for a specific uri. Accepts wildcards.
    *
    * @param   {string}    uri
+   * @param   {Function}  Callback function
    * @return  {Promise}
    * @access  public
    */
-  when(uri: string): Promise<*> {
+  when(uri: string, callback: Function): Promise<*> {
     uri = this.normalizeUri(uri);
 
     return new Promise(resolve => {
-      this.callbacks[uri] = resolve;
+      this.callbacks[uri] = callback;
     });
   },
 

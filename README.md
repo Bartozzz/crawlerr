@@ -46,7 +46,7 @@ spider.get("/")
 ```javascript
 const spider = crawlerr("http://blog.npmjs.org/");
 
-spider.when("/post/[digit:id]/[all:slug]").then(({ req, res, uri }) => {
+spider.when("/post/[digit:id]/[all:slug]", ({ req, res, uri }) => {
   const post = req.param("id");
   const slug = req.param("slug").split("?")[0];
 
@@ -122,8 +122,7 @@ Searches the entire website for urls which match the specified `pattern`. `patte
 
 ```javascript
 spider
-  .when("/users/[digit:userId]/repos/[digit:repoId]")
-  .then(({ res, req, uri }) => …);
+  .when("/users/[digit:userId]/repos/[digit:repoId]", ({ res, req, uri }) => …);
 ```
 
 <br />

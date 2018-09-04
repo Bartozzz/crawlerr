@@ -26,15 +26,11 @@ export default {
    *
    * @param   {string}    uri
    * @param   {Function}  callback
-   * @return  {Promise}
+   * @return  {void}
    * @access  public
    */
-  when(uri: string, callback: Function): Promise<*> {
-    uri = this.normalizeUri(uri);
-
-    return new Promise(resolve => {
-      this.callbacks[uri] = callback;
-    });
+  when(uri: string, callback: Function): void {
+    this.callbacks[this.normalizeUri(uri)] = callback;
   },
 
   /**

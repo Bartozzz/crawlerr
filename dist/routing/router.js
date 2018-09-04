@@ -51,17 +51,11 @@ exports.default = {
    *
    * @param   {string}    uri
    * @param   {Function}  callback
-   * @return  {Promise}
+   * @return  {void}
    * @access  public
    */
   when: function when(uri, callback) {
-    var _this = this;
-
-    uri = this.normalizeUri(uri);
-
-    return new Promise(function (resolve) {
-      _this.callbacks[uri] = callback;
-    });
+    this.callbacks[this.normalizeUri(uri)] = callback;
   },
 
 
@@ -74,7 +68,7 @@ exports.default = {
    * @access  public
    */
   get: function get(uri) {
-    var _this2 = this;
+    var _this = this;
 
     var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
 
@@ -95,8 +89,8 @@ exports.default = {
         req.res = res;
 
         // Alter the prototypes:
-        (0, _setprototypeof2.default)(req, _this2.req);
-        (0, _setprototypeof2.default)(res, _this2.res);
+        (0, _setprototypeof2.default)(req, _this.req);
+        (0, _setprototypeof2.default)(res, _this.res);
 
         resolve({ req: req, res: res, uri: uri });
       });

@@ -1,7 +1,7 @@
 const crawler = require("../dist");
 const spider = crawler("http://blog.npmjs.org/");
 
-spider.when("/post/[digit:id]/[all:slug]").then(({ req, res, uri }) => {
+spider.when("/post/[digit:id]/[all:slug]", ({ req, res, uri }) => {
   const id = req.param("id");
   const slug = req.param("slug").split("?")[0];
 

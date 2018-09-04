@@ -14,10 +14,6 @@ var _retryRequest = require("retry-request");
 
 var _retryRequest2 = _interopRequireDefault(_retryRequest);
 
-var _mergeDescriptors = require("merge-descriptors");
-
-var _mergeDescriptors2 = _interopRequireDefault(_mergeDescriptors);
-
 var _getLink = require("get-link");
 
 var _getLink2 = _interopRequireDefault(_getLink);
@@ -50,17 +46,12 @@ exports.default = {
    * Add a handler for a specific uri. Accepts wildcards.
    *
    * @param   {string}    uri
-   * @return  {Promise}
+   * @param   {Function}  callback
+   * @return  {void}
    * @access  public
    */
-  when: function when(uri) {
-    var _this = this;
-
-    uri = this.normalizeUri(uri);
-
-    return new Promise(function (resolve) {
-      _this.callbacks[uri] = resolve;
-    });
+  when: function when(uri, callback) {
+    this.callbacks[this.normalizeUri(uri)] = callback;
   },
 
 
@@ -73,7 +64,7 @@ exports.default = {
    * @access  public
    */
   get: function get(uri) {
-    var _this2 = this;
+    var _this = this;
 
     var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultOptions;
 
@@ -94,8 +85,8 @@ exports.default = {
         req.res = res;
 
         // Alter the prototypes:
-        (0, _setprototypeof2.default)(req, _this2.req);
-        (0, _setprototypeof2.default)(res, _this2.res);
+        (0, _setprototypeof2.default)(req, _this.req);
+        (0, _setprototypeof2.default)(res, _this.res);
 
         resolve({ req: req, res: res, uri: uri });
       });
@@ -187,7 +178,8 @@ exports.default = {
       if (uri === index || parameters) {
         // Merge request parameters with wildcard output:
         // NOTE: pheraps we should override params on each callback?
-        (0, _mergeDescriptors2.default)(req.params || {}, parameters || {});
+        req.params = _extends({}, req.params, parameters);
+        // mixin(req.params || {}, parameters || {});
 
         callback({ req: req, res: res, uri: uri });
       }

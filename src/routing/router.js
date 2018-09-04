@@ -2,7 +2,6 @@
 
 import url from "url";
 import retryRequest from "retry-request";
-import mixin from "merge-descriptors";
 import getLink from "get-link";
 import wildcard from "wildcard-named";
 import setPrototypeOf from "setprototypeof";
@@ -128,7 +127,8 @@ export default {
       if (uri === index || parameters) {
         // Merge request parameters with wildcard output:
         // NOTE: pheraps we should override params on each callback?
-        mixin(req.params || {}, parameters || {});
+        req.params = { ...req.params, ...parameters };
+        // mixin(req.params || {}, parameters || {});
 
         callback({ req, res, uri });
       }

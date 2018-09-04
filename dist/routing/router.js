@@ -14,10 +14,6 @@ var _retryRequest = require("retry-request");
 
 var _retryRequest2 = _interopRequireDefault(_retryRequest);
 
-var _mergeDescriptors = require("merge-descriptors");
-
-var _mergeDescriptors2 = _interopRequireDefault(_mergeDescriptors);
-
 var _getLink = require("get-link");
 
 var _getLink2 = _interopRequireDefault(_getLink);
@@ -182,7 +178,8 @@ exports.default = {
       if (uri === index || parameters) {
         // Merge request parameters with wildcard output:
         // NOTE: pheraps we should override params on each callback?
-        (0, _mergeDescriptors2.default)(req.params || {}, parameters || {});
+        req.params = _extends({}, req.params, parameters);
+        // mixin(req.params || {}, parameters || {});
 
         callback({ req: req, res: res, uri: uri });
       }

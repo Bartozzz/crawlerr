@@ -37,17 +37,17 @@ describe("crawlerr", function () {
     });
 
     describe(".when(pattern)", function () {
-      it("should handle promises", function () {
-        let spider = crawlerr("https://google.com/");
-
-        expect(spider.when("/")).to.have.property("then");
-        expect(spider.when("/")).to.have.property("catch");
-      });
+      // it("should handle promises", function () {
+      //   let spider = crawlerr("https://google.com/");
+      //
+      //   expect(spider.when("/")).to.have.property("then");
+      //   expect(spider.when("/")).to.have.property("catch");
+      // });
 
       it("should handle a valid request", function (done) {
         let spider = crawlerr("https://google.com/");
 
-        spider.when("/").then(({ req, res, uri }) => {
+        spider.when("/", ({ req, res, uri }) => {
           spider.stop();
 
           expect(req).to.be.an("object");

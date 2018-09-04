@@ -50,16 +50,17 @@ exports.default = {
    * Add a handler for a specific uri. Accepts wildcards.
    *
    * @param   {string}    uri
+   * @param   {Function}  callback
    * @return  {Promise}
    * @access  public
    */
-  when: function when(uri) {
+  when: function when(uri, callback) {
     var _this = this;
 
     uri = this.normalizeUri(uri);
 
     return new Promise(function (resolve) {
-      _this.callbacks[uri] = resolve;
+      _this.callbacks[uri] = callback;
     });
   },
 

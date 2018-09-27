@@ -3,21 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _http = _interopRequireDefault(require("http"));
 
-var _http = require("http");
-
-var _http2 = _interopRequireDefault(_http);
-
-var _typeIs = require("type-is");
-
-var _typeIs2 = _interopRequireDefault(_typeIs);
+var _typeIs = _interopRequireDefault(require("type-is"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var req = Object.create(_http2.default.IncomingMessage.prototype);
-
+const req = Object.create(_http.default.IncomingMessage.prototype);
 /**
  * Returns request header. The `Referrer` header field is special-cased, both
  * `Referrer` and `Referer` are interchangeable.
@@ -26,12 +20,13 @@ var req = Object.create(_http2.default.IncomingMessage.prototype);
  * @return  {string}
  * @access  public
  */
+
 req.get = function (header) {
   if (!header || typeof header !== "string") {
-    throw new TypeError("req.get takes a string as argument, got " + (typeof header === "undefined" ? "undefined" : _typeof(header)));
+    throw new TypeError(`req.get takes a string as argument, got ${typeof header}`);
   }
 
-  var lower = header.toLowerCase();
+  const lower = header.toLowerCase();
 
   switch (lower) {
     case "referer":
@@ -42,7 +37,6 @@ req.get = function (header) {
       return this.headers[lower];
   }
 };
-
 /**
  * Check if the incoming request contains the "Content-Type" header field and it
  * contains the give mime `type`.
@@ -51,14 +45,11 @@ req.get = function (header) {
  * @return  {string|false}
  * @access  public
  */
-req.is = function () {
-  for (var _len = arguments.length, types = Array(_len), _key = 0; _key < _len; _key++) {
-    types[_key] = arguments[_key];
-  }
 
-  return (0, _typeIs2.default)(this, types);
+
+req.is = function (...types) {
+  return (0, _typeIs.default)(this, types);
 };
-
 /**
  * Return the value of param `name` when present or `defaultValue`:
  * - checks route placeholders, ex: `user/[all:username]`;
@@ -70,17 +61,18 @@ req.is = function () {
  * @return  {string}
  * @access  public
  */
-req.param = function (name, defaultValue) {
-  var params = this.params || {};
-  var query = this.query || {};
-  var body = this.body || {};
 
+
+req.param = function (name, defaultValue) {
+  const params = this.params || {};
+  const query = this.query || {};
+  const body = this.body || {};
   if (params[name] != null) return params[name];
   if (query[name] != null) return query[name];
   if (body[name] != null) return body[name];
-
   return defaultValue;
 };
 
-exports.default = req;
-module.exports = exports["default"];
+var _default = req;
+exports.default = _default;
+module.exports = exports.default;

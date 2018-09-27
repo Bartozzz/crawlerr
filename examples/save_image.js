@@ -1,9 +1,10 @@
 const fs = require("fs");
+const url = require("url");
 const http = require("http");
 const path = require("path");
 const Stream = require("stream").Transform;
 const crawler = require("../dist");
-const spider = crawler("https://placekitten.com/");
+const spider = crawler("http://placekitten.com/");
 
 spider
   .get("/")
@@ -12,10 +13,11 @@ spider
     const images = document.getElementsByTagName("img");
 
     for (const image of images) {
-      console.log(`Downloading ${image.src} from ${uri}`);
+      const src = url.resolve(uri, image.src);
+      console.log(`Downloading ${image.src} from ${uri} (${src})`);
 
       http
-        .request(image.src, response => {
+        .request(src, response => {
           const data = new Stream();
           const file = `${+new Date()}.jpg`;
           const src = path.resolve(__dirname, "./downloaded/", file);

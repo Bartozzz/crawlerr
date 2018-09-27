@@ -2,10 +2,14 @@
 
 import url from "url";
 import retryRequest from "retry-request";
-import mixin from "merge-descriptors";
 import getLink from "get-link";
 import wildcard from "wildcard-named";
 import setPrototypeOf from "setprototypeof";
+
+const defaultOptions = {
+  noResponseRetries: 0,
+  retries: 1
+};
 
 export default {
   /**
@@ -20,29 +24,28 @@ export default {
    * Add a handler for a specific uri. Accepts wildcards.
    *
    * @param   {string}    uri
-   * @return  {Promise}
+   * @param   {Function}  callback
+   * @return  {void}
    * @access  public
    */
-  when(uri: string): Promise<*> {
-    uri = this.normalizeUri(uri);
-
-    return new Promise(resolve => {
-      this.callbacks[uri] = resolve;
-    });
+  when(uri: string, callback: Function): void {
+    this.callbacks[this.normalizeUri(uri)] = callback;
   },
 
   /**
    * Requests a single uri.
    *
    * @param   {string}    uri
+   * @param   {Object}    opts
    * @return  {Promise}
    * @access  public
    */
-  get(uri: string): Promise<*> {
+  get(uri: string, opts: Object = defaultOptions): Promise<*> {
     uri = this.normalizeUri(uri);
+    opts = { ...opts, request: this.request };
 
     return new Promise((resolve, reject) => {
-      retryRequest(uri, { request: this.request }, (error, response) => {
+      retryRequest(uri, opts, (error, response) => {
         if (error || response.statusCode !== 200) {
           return reject(error || uri);
         }
@@ -124,7 +127,8 @@ export default {
       if (uri === index || parameters) {
         // Merge request parameters with wildcard output:
         // NOTE: pheraps we should override params on each callback?
-        mixin(req.params || {}, parameters || {});
+        req.params = { ...req.params, ...parameters };
+        // mixin(req.params || {}, parameters || {});
 
         callback({ req, res, uri });
       }
